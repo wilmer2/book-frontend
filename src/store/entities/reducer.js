@@ -1,5 +1,8 @@
+/**
+* Entities Reducer
+*/
 import typeToReducer from 'type-to-reducer';
-import mergeEntities from '../../actions/EntitiesActions';
+import { MERGER_ENTITIES } from './types';
 import { fromJS } from 'immutable';
 
 const initialState = fromJS({
@@ -9,8 +12,8 @@ const initialState = fromJS({
   books: {},
 });
 
-const entities =  typeToReducer({
-  [mergeEntities]: (state, action) => state.mergeDeep(fromJS(action.payload)),
+const reducer =  typeToReducer({
+  [MERGER_ENTITIES]: (state, action) => state.mergeDeep(fromJS(action.payload)), 
 }, initialState);
 
-export default entities;
+export default reducer;
