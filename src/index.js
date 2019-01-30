@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import store from './store';
 import App from './App';
 import { render } from 'react-dom';
-import './index.css';
 
 class AppContainer extends Component {
   render() {
