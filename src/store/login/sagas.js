@@ -9,8 +9,8 @@ function* sendCredentials(payload) {
     const token = yield call(BookApi.login, payload);
 
     yield put(loginSuccess());
-    yield put(closeLoginModal());
     yield call(BookApi.storeToken, token);
+    yield put(closeLoginModal());
     
   } catch(error) {
     yield put(loginError(error));
