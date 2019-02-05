@@ -9,10 +9,12 @@ import { openLoginModal, closeLoginModal } from '../../store/Login';
 const mapStateToProps = (state) => {
   const authenticatedUser = state.entities.get('authenticated');
   const openLoginModal = state.ui.login.get('openModal');
+  const fechingLogin = state.ui.login.get('isFetching');
 
   return {
     authenticatedUser,
     openLoginModal,
+    fechingLogin,
   };
 }
 
@@ -44,6 +46,7 @@ class Header extends Component {
       <Navbar 
         authenticatedUser={this.props.authenticatedUser} 
         openLoginModal={this.props.openLoginModal}
+        fechingLogin={this.props.fechingLogin}
         onClickOpenLoginModal={this.handleOnClickOpenLoginModal}
         onCloseLoginModal={this.handleOnCloseLoginModal}
       />
@@ -56,6 +59,7 @@ Header.propTypes = {
   openLoginModal: PropTypes.bool.isRequired,
   openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
+  fechingLogin: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
