@@ -1,11 +1,13 @@
 import React from 'react';
+import { FastField, ErrorMessage } from 'formik';
+import ErrorFieldMessage from '../components/ErrorFieldMessage';
 
-const Fields = () => {
+const LoginFields = () => {
   return (
     <div className="column">
       <div className="field">
         <p className="control has-icons-left has-icons-right">
-          <input className="input" type="email" placeholder="Email" />
+          <FastField name="email" className="input" type="email" placeholder="Email" />
           <span className="icon is-small is-left">
             <i className="fas fa-envelope"></i>
           </span>
@@ -13,17 +15,19 @@ const Fields = () => {
             <i className="fas fa-check"></i>
           </span>
         </p>
+        <ErrorMessage name="email" component={ErrorFieldMessage} />
       </div>
       <div className="field">
         <p className="control has-icons-left">
-          <input className="input" type="password" placeholder="Contraseña" />
+          <FastField name="password" className="input" type="password" placeholder="Contraseña" />
           <span className="icon is-small is-left">
             <i className="fas fa-lock"></i>
           </span>
         </p>
+        <ErrorMessage name="password" component={ErrorFieldMessage} />
       </div>
     </div>
   );
 }
 
-export default Fields;
+export default LoginFields;
