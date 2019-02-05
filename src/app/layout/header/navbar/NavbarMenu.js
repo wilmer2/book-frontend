@@ -2,8 +2,8 @@ import React, { PureComponent, Fragment } from 'react';
 import ImmutableProtypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import SearchField from './navbarMenu/SearchField';
-import Avatar from './navbarMenu/Avatar';
+import SearchField from './SearchField';
+import Avatar from './Avatar';
 import Modal from '../../../components/Modal';
 import Login from '../../../Login';
 
