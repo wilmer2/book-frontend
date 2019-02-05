@@ -1,8 +1,9 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Form from './login/Form';
-import ErrorMessage from './components/ErrorMessage';
+import LoginForm from './login/LoginForm';
+import ErrorGeneralMessage from './components/ErrorGeneralMessage';
+import { loginPending } from '../store/Login';
 
 const mapStateToProps = (state) => {
   const login = state.ui.login;
@@ -15,6 +16,14 @@ const mapStateToProps = (state) => {
   };
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitLogin(loginData) {
+      dispatch(loginPending(loginData));
+    }
+  }
+}
+
 class Login extends PureComponent {
   render() {
     const fetchError = this.props.fetchError;
@@ -23,9 +32,12 @@ class Login extends PureComponent {
       <Fragment>
         {
           fetchError && 
-          <ErrorMessage errorMessage={this.props.errorMessage} />
+          <ErrorGeneralMessage errorMessage={this.props.errorMessage} />
         }
-        <Form isFetching={this.props.isFetching} />
+        <LoginForm 
+          isFetching={this.props.isFetching} 
+          onSubmitLogin={this.props.submitLogin}
+        />
       </Fragment>
     );
   }
@@ -35,6 +47,7 @@ Login.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   fetchError: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
+  submitLogin: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
