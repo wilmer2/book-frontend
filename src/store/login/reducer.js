@@ -13,25 +13,24 @@ const initialState = fromJS({
 });
 
 const reducer = typeToReducer({
-  [LOGIN_USER_ASYNC]: {
-    PENDING: state => state.merge({
-      isFetching: true,
-      fetchError: false,
-    }),
-
-    ERROR: (state, { payload: { errors } }) => state.merge({
-      isFetching: false,
-      fetchError: true,
-      errorMessage: errors,
-    }),
-
-    SUCCESS: state => state.merge({
-      isFetching: false,
-      fetchError: false,
-    }),
-  },
+  [LOGIN_USER_ASYNC.PENDING]: state => state.merge({
+    isFetching: true,
+    fetchError: false,
+  }),
+  [LOGIN_USER_ASYNC.ERROR]: (state, { payload: { errors } }) => state.merge({
+    isFetching: false,
+    fetchError: true,
+    errorMessage: errors,
+  }),
+  [LOGIN_USER_ASYNC.SUCCESS]: state => state.merge({
+    isFetching: false,
+    fetchError: false,
+  }),
   [OPEN_LOGIN_MODAL]: (state) => state.set('openModal', true),
-  [CLOSE_LOGIN_MODAL]: (state) => state.set('openModal', false),
+  [CLOSE_LOGIN_MODAL]: (state) => state.merge({
+    openModal: false,
+    fetchError: false,
+  })
 }, initialState);
 
 export default reducer;
