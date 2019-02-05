@@ -1,7 +1,7 @@
 import { fork, call, take, put, cancelled, cancel } from 'redux-saga/effects';
 import _ from 'lodash';
 import { LOGIN_USER_ASYNC, LOGOUT } from './types';
-import { loginError,  loginSuccess} from '../Login';
+import { loginError, loginSuccess, closeLoginModal} from '../Login';
 import BookApi from '../../utils/BookApi';
 
 function* sendCredentials(payload) {
@@ -9,6 +9,7 @@ function* sendCredentials(payload) {
     const token = yield call(BookApi.login, payload);
 
     yield put(loginSuccess());
+    yield put(closeLoginModal());
     yield call(BookApi.storeToken, token);
     
   } catch(error) {
