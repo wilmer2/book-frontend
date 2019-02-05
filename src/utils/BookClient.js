@@ -10,7 +10,7 @@ import {
 } from './messages';
 
 const BASE_URL = 'http://book.com/v1/';
-const TIMEOUT = 5000;
+const TIMEOUT = 30000;
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 const ECONNABORTED = 'ECONNABORTED';
 
