@@ -10,6 +10,7 @@ const middleware = ({ dispatch }) => next => (action) => {
   const normalizeData = normalize(action.payload);
 
   dispatch(mergeEntities(normalizeData));
+  next(action);
 }
 
 export default middleware;
