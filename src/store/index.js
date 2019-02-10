@@ -2,13 +2,14 @@ import { createStore, applyMiddleware } from 'redux';
 import Immutable from 'immutable';
 import _ from 'lodash';
 import createSagaMiddleware from 'redux-saga';
+import BookNormalizerMiddleware from '../middlewares/BookNormalizerMiddleware';
 import { createLogger } from 'redux-logger';
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 
-let middlewares = [sagaMiddleware];
+let middlewares = [sagaMiddleware, BookNormalizerMiddleware];
 
 const setStateTransformer = (state) => {
   const newState = {};

@@ -12,6 +12,18 @@ const login = (data) => {
   });
 }
 
+const getAuthenticatedUser = () => {
+  return new Promise((resolve, reject) => {
+    const url = 'user/profile';
+
+    return BookClient.get(url)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch(reject);
+  });
+}
+
 const storeItem = (key, value) => {
   localStorage.setItem(key, value);
 }
@@ -22,7 +34,7 @@ const removeItem = (key) => {
 
 const storeToken = (token) => {
   storeItem('token', token);
-
+   
   BookClient.passToken(token);
 }
 
@@ -38,6 +50,7 @@ const bookApi = {
   removeItem,
   storeToken,
   clearToken,
+  getAuthenticatedUser,
 };
 
 export default bookApi;
