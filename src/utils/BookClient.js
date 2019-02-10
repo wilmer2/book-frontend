@@ -25,7 +25,7 @@ const axiosClient = axios.create({
 });
 
 
-const passToken = token => axiosClient.defaults.headers.common['Authorization'] = `Bearer token`;
+const passToken = token => axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 const removeToken = () => axiosClient.defaults.headers.common['Authorization'] = ''; 
 
 
