@@ -1,11 +1,11 @@
 import React, { Fragment }  from 'react';
-import Header from './layout/Header';
+import Navbar from './layout/Navbar';
 import Content from './layout/Content';
 
 const Layout = () => {
   return (
     <Fragment>
-      <Header />
+      <Navbar />
       <Content />    
     </Fragment>
   );
