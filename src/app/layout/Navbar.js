@@ -3,20 +3,12 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import NavbarMenu from './navbar/NavbarMenu';
 import NavbarBurger from './navbar/NavbarBurger';
-
-import createDenormalizeSelector from '../../utils/createDenormalizeSelector';
 import BookApi from '../../utils/BookApi';
-
+import { getAuthenticatedUser } from '../../selectors';
 import { connect } from 'react-redux';
 
 import { getAuthenticatedUserPending } from '../../store/Authenticated';
 import { openLoginModal, closeLoginModal, logout } from '../../store/Login';
-
-const getAuthenticatedId = state => state.ui.authenticated.get('id');
-
-const getAuthenticatedUser = (state) => {
-  return createDenormalizeSelector(getAuthenticatedId, 'authenticated', state.entities)(state);
-} 
 
 const mapStateToProps = (state) => {
   const authenticatedUser = getAuthenticatedUser(state);
