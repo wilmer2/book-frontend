@@ -1,7 +1,9 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
 import { is, Map, List } from 'immutable';
 import build from 'redux-object';
-import { isArray, isUndefined, isNull } from 'lodash';
+import isArray from 'lodash/isArray';
+import isUndefined from 'lodash/isUndefined';
+import isNull from 'lodash/isNull';
 
 export const createImmutableSelector = createSelectorCreator(
   defaultMemoize,
