@@ -1,5 +1,5 @@
 import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
-import { is, Map, List } from 'immutable';
+import { is, List } from 'immutable';
 import build from 'redux-object';
 import isArray from 'lodash/isArray';
 import isUndefined from 'lodash/isUndefined';
@@ -29,7 +29,7 @@ const createDenormalizeSelector = (getIdsFunc, entitiyName, rootBuild) => {
       const id = idsList;
 
       if (isNull(id) || isUndefined(id)) {
-        return Map({});
+        return {};
       }
 
       return build(rootBuild, entitiyName, id);
