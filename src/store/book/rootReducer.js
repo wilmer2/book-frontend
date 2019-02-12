@@ -17,6 +17,7 @@ const initialState = fromJS({
     isFetching: false,
     fetched: false,
     fetchError: false,
+    lastSearch: '',
   },
 });
 
