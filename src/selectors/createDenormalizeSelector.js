@@ -1,4 +1,4 @@
-import { createSelector, createSelectorCreator, defaultMemoize } from 'reselect';
+import { createSelectorCreator, defaultMemoize } from 'reselect';
 import { is, List } from 'immutable';
 import build from 'redux-object';
 import isArray from 'lodash/isArray';
@@ -12,18 +12,18 @@ export const createImmutableSelector = createSelectorCreator(
 
 const getEntities = state => state.entities;
 
-const getEntitiesFactory = (entitiyName) => {
-  return createSelector(
-    getEntities,
-    (entities) => entities.get(entitiyName)
+const getEntityFactory = (entitiyName) => {
+  return createImmutableSelector(
+    getEntities, 
+    entities => entities.get(entitiyName)
   );
 }
 
-const createDenormalizeSelector = (getIdsFunc, entitiyName, rootBuild) => {
-  return createImmutableSelector([getIdsFunc, getEntitiesFactory(entitiyName)], 
+const createDenormalizeSelector = (getIdsFunc, entitiyName, rootEntities) => {
+  return createImmutableSelector([getIdsFunc, getEntityFactory(entitiyName)], 
     (idsList, _) => {
       if (isArray(idsList) || idsList instanceof List) {
-        return idsList.map(id => build(rootBuild, entitiyName, id));
+        return idsList.map(id => build(rootEntities, entitiyName, id));
       }
 
       const id = idsList;
@@ -32,7 +32,7 @@ const createDenormalizeSelector = (getIdsFunc, entitiyName, rootBuild) => {
         return {};
       }
 
-      return build(rootBuild, entitiyName, id);
+      return build(rootEntities, entitiyName, id);
   });
 }
 

@@ -1,4 +1,5 @@
 import BookClient from './BookClient';
+import isNull from 'lodash/isNull';
 
 const login = (data) => {
   return new Promise((resolve, reject) => {
@@ -17,6 +18,38 @@ const getAuthenticatedUser = () => {
     const url = 'user/profile';
 
     return BookClient.get(url)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch(reject);
+  });
+}
+
+const getCategories = () => {
+  return new Promise((resolve, reject) => {
+    const url = 'categories';
+
+    return BookClient.get(url)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch(reject);
+  });
+}
+
+const getBooksToHome = (requestParams = null) => {
+  return new Promise((resolve, reject) => {
+    let params;
+
+    if (!isNull(requestParams)) {
+      params = requestParams;
+    }
+
+    const url = '/';
+
+    return BookClient.get(url, {
+      params,
+    })
       .then((response) => {
         resolve(response.data)
       })
@@ -51,6 +84,8 @@ const bookApi = {
   storeToken,
   clearToken,
   getAuthenticatedUser,
+  getBooksToHome,
+  getCategories,
 };
 
 export default bookApi;

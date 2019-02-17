@@ -14,10 +14,13 @@ const initialState = fromJS({
   },
 
   homeData: {
-    isFetching: false,
+    isFetching: true,
     fetched: false,
     fetchError: false,
     lastSearch: '',
+    booksIdsMoreSeen: null,
+    booksIdsByCategories: null,
+    booksIdsByLastSearch: null,
   },
 });
 

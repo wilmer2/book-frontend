@@ -2,14 +2,13 @@
 * Category Reducer
 */
 import typeToReducer from 'type-to-reducer';
-import { fromJS } from 'immutable';
+import { fromJS, List } from 'immutable';
 import { GET_CATEGORIES_ASYNC } from './types';
 
 const initialState = fromJS({
   isFetching: false,
   fetched: false,
   fetchError: false,
-  ids: null,
 });
 
 const reducer = typeToReducer({
@@ -21,11 +20,11 @@ const reducer = typeToReducer({
     fetchError: true,
     isFetching: false,
   }),
-  [GET_CATEGORIES_ASYNC.SUCCESS]: state => state.merge({
+  [GET_CATEGORIES_ASYNC.SUCCESS]: state => state.merger({
+    fetched: true,
     fetchError: false,
     isFetching: false,
-    fetched: true,
-  })
+  }), 
 }, initialState);
 
 export default reducer;
