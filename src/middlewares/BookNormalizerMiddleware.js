@@ -37,7 +37,6 @@ const middleware = ({ dispatch }) => next => (action) => {
 
   _.merge(action.payload, nextPayload);
 
-
   dispatch(mergeEntities(normalizeData));
   return next(action);
 }

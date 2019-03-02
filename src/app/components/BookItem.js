@@ -5,6 +5,16 @@ class BookItem extends PureComponent {
   //
 }
 
+const getUserId = book => () => book.user_id;
+
+const mapStateToProps = (state, props) => {
+  const book = props.book;
+  const user =
+  return {
+    //
+  }
+}
+
 BookItem.propTypes = {
   book: PropTypes.shape({
     name: PropTypes.string.isRequired,
