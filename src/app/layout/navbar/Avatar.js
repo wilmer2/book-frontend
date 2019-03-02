@@ -13,7 +13,7 @@ class Avatar extends PureComponent {
     const fetchError = authenticatedUserUi.get('fetchError');
     const fetched = authenticatedUserUi.get('fetched');
     const isFetching = authenticatedUserUi.get('isFetching');
-
+    
     if (fetched) {
       return(
         <AvatarDropDown  

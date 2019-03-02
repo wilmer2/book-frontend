@@ -24,7 +24,7 @@ const reducer = typeToReducer({
     isFetching: false,
     fetchError: true,
   }),
-  [GET_AUTHENTICATED_USER_ASYNC.SUCCESS]: (state, { payload: { data: { id } }}) => {
+  [GET_AUTHENTICATED_USER_ASYNC.SUCCESS]: (state, { payload: { id } }) => {
     return state.merge({
       fetched: true,
       isFetching: false,
