@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import NavbarMenu from './navbar/NavbarMenu';
 import NavbarBurger from './navbar/NavbarBurger';
 import BookApi from '../../utils/BookApi';
-import { getAuthenticatedUser } from '../../selectors';
+import { usersSelector } from '../../selectors';
 import { connect } from 'react-redux';
 
 import { getAuthenticatedUserPending } from '../../store/Authenticated';
 import { openLoginModal, closeLoginModal, logout } from '../../store/Login';
 
 const mapStateToProps = (state) => {
-  const authenticatedUser = getAuthenticatedUser(state);
+  const authenticatedUser = usersSelector.getAuthenticatedUser(state);
   const authenticatedUserUi = state.ui.authenticated;
   const openLoginModal = state.ui.login.get('openModal');
   const fechingLogin = state.ui.login.get('isFetching');
