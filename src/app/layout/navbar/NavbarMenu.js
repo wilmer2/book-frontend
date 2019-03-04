@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SearchField from './SearchField';
 import Avatar from './Avatar';
+import CategoryDropDown from './CategoryDropDown';
 import NavbarButtons from './NavbarButtons';
 import Modal from '../../components/Modal';
 import Login from '../../Login';
@@ -33,7 +34,7 @@ class NavbarMenu extends PureComponent {
       <Fragment>
         <div className="navbar-menu is-active">
           <div className="navbar-start">
-            <Link to="/about" className="navbar-item">sing up</Link>
+            <CategoryDropDown />
             <Link to="/about" className="navbar-item">About</Link>
             <Link to="/about" className="navbar-item">About</Link>
           </div>

@@ -9,12 +9,12 @@ import { getBooksToHomePending } from '../../store/Book';
 import { 
   getBooksSelector, 
   getAuthenticatedUser, 
-  getCategoriesSelector 
+  categoriesSelector 
 }  from '../../selectors';
 
 const getCategoriesIds = createSelector(
   getAuthenticatedUser,
-  getCategoriesSelector,
+  categoriesSelector.getCategories,
   (authenticatedUser, categories) => {
     if (!isEmpty(authenticatedUser)) {
       return authenticatedUser.preferences.map(category => category.id);
