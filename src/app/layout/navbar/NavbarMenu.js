@@ -28,8 +28,8 @@ class NavbarMenu extends PureComponent {
 
     return <NavbarButtons onClickOpenLoginModal={this.props.onClickOpenLoginModal} />;
   }
-  render() {
 
+  render() {
     return (
       <Fragment>
         <div className="navbar-menu is-active">
