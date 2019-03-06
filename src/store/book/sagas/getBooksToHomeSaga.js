@@ -1,9 +1,8 @@
 import { take, call, put, all } from 'redux-saga/effects';
 import BookApi from '../../../utils/BookApi';
 import isEmpty from 'lodash/isEmpty';
-import isNull from 'lodash/isNull';
 import { GET_BOOKS_TO_HOME_ASYNC } from '../types';
-import { getCategoriesSuccess } from '../../Category';
+
 import { 
   getBooksToHomeSuccess, 
   getBooksToHomeError, 
@@ -14,22 +13,13 @@ import {
 
 function* getBooksToHome({ categoriesIds, lastSearch }) {
   try {
-    let requestCategoriesIds = categoriesIds;
-
-    if (isNull(requestCategoriesIds)) {
-      const categories = yield call(BookApi.getCategories);
-      requestCategoriesIds = categories.map(category => category.id);
-      
-      yield put(getCategoriesSuccess(categories));
-    }
-
     const [booksMoreSeen, booksByCategories] = yield all([
       call(BookApi.getBooksToHome),
-      call(BookApi.getBooksToHome, { categories_id: requestCategoriesIds })
+      call(BookApi.getBooksToHome, { categories_id: categoriesIds, include: 'user' })
     ]);
 
     if (!isEmpty(lastSearch)) {
-     const booksByLastSearch = yield call(BookApi.getBooksToHome, { searchName: lastSearch });
+      const booksByLastSearch = yield call(BookApi.getBooksToHome, { searchName: lastSearch, include: 'user' });
 
       yield put(putBooksByLastSearch(booksByLastSearch));
     }
