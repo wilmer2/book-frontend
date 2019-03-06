@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 import entities from './entities/reducer';
 import authenticated from './authenticated/reducer';
 import login from './login/reducer';
-import book from './book/rootReducer';
-import category from './category/rootReducer';
+import book from './book/reducer';
+import category from './category/reducer';
 
 
 import isEqual from 'lodash/isEqual';
