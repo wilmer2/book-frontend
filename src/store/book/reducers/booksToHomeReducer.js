@@ -12,6 +12,7 @@ const booksToHomeReducer = {
   [GET_BOOKS_TO_HOME_ASYNC.PENDING]: state => state.mergeDeep({
     homeData: {
       isFetching: true,
+      fetchError: false,
       fetched: false,
     },
   }),
@@ -28,15 +29,9 @@ const booksToHomeReducer = {
       fetched: true,
     },
   }),
-  [PUT_BOOKS_IDS_MORE_SEEN]: (state, { payaload: { idsList } }) => state.merge({
-    booksIdsMoreSeen: idsList,
-  }),
-  [PUT_BOOKS_IDS_BY_CATEGORIES]: (state, { payaload: { idsList } }) => state.merge({
-    booksIdsByCategories: idsList,
-  }),
-  [PUT_BOOKS_IDS_BY_LAST_SEARCH]: (state, { payaload: { idsList } }) => state.merge({
-    booksIdsByLastSearch: idsList,
-  }),
+  [PUT_BOOKS_IDS_MORE_SEEN]: (state, { payload: { idsList } }) => state.setIn(['homeData', 'booksIdsMoreSeen'], idsList),
+  [PUT_BOOKS_IDS_BY_CATEGORIES]: (state, { payload: { idsList } }) => state.setIn(['homeData', 'booksIdsByCategories'], idsList),
+  [PUT_BOOKS_IDS_BY_LAST_SEARCH]: (state, { payload: { idsList } }) => state.setIn(['homeData', 'booksIdsByLastSearch'], idsList),
 };
 
 export default booksToHomeReducer;
