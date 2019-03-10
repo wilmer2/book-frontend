@@ -14,8 +14,8 @@ import {
 function* getBooksToHome({ categoriesIds, lastSearch }) {
   try {
     const [booksMoreSeen, booksByCategories] = yield all([
-      call(BookApi.getBooksToHome),
-      call(BookApi.getBooksToHome, { categories_id: categoriesIds, include: 'user' })
+      call(BookApi.getBooksToHome, { include: 'user' }),
+      call(BookApi.getBooksToHome, { categories_ids: categoriesIds, include: 'user' })
     ]);
 
     if (!isEmpty(lastSearch)) {
