@@ -16,6 +16,7 @@ const getCategoriesIds = createSelector(
   categoriesSelector.getCategories,
   (authenticatedUser, categories) => {
     if (!isEmpty(authenticatedUser)) {
+      authenticatedUser.preferences.map(category => console.log(category.id));
       return authenticatedUser.preferences.map(category => category.id);
     }
 
@@ -36,7 +37,7 @@ const mapStateToProps = (state) => {
   const booksByLastSearch = booksSelector.getBooksToHome(state, getBooksIdsByLastSearch);
   const fetchError = homeData.get('fetchError') || categoryData.get('fetchError');
   const isFetching = homeData.get('isFetching') || categoryData.get('isFetching');
- 
+  
   return {
     fetched: homeData.get('fetched'), 
     lastSearch: homeData.get('lastSearch'),
