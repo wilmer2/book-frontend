@@ -24,7 +24,9 @@ class BookItem extends PureComponent {
           </figure>
         </div>
         <div className="column">
-          <h4>{book.name}</h4>
+          <h3>
+            <Link to="book/{book.id}">{book.name}</Link>
+          </h3>
           <div>
             <Link to="user/{user.id}">by {user.name}</Link>
           </div>
