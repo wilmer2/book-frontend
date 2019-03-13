@@ -9,6 +9,8 @@ import CarouselItem from './CarouselItem';
 
 class HomeView extends PureComponent {
   componentDidMount() {
+    if (this.props.fetched) return;
+    
     this.handleGetBooks();
   }
 
