@@ -6,6 +6,7 @@ import isEmpty from 'lodash/isEmpty';
 import MediumSpinner from '../../components/MediumSpinner';
 import ButtonReload from '../../components/ButtonReload';
 import CarouselItem from './CarouselItem';
+import BookModal from './BookModal';
 
 class HomeView extends PureComponent {
   componentDidMount() {
@@ -32,11 +33,19 @@ class HomeView extends PureComponent {
     });
   }
 
+  handleOnClickOpenBookModal = bookId => {
+    this.props.openBookModal({ bookId });
+  }
+
   renderCarouselByLastSearch() {
     return (!isEmpty(this.props.lastSearch) ? 
-      <CarouselItem title="Por última búsqueda" books={this.props.booksByLastSearch} /> : null
+      <CarouselItem 
+        title="Por última búsqueda" 
+        books={this.props.booksByLastSearch} 
+        onClickOpenBookModal={this.handleOnClickOpenBookModal}
+      /> : null
     );
-  }
+  }   
 
   render() {
     if (this.props.isFetching && !this.props.fetchError) {
@@ -48,9 +57,18 @@ class HomeView extends PureComponent {
     if (this.props.fetched) {
       return (
         <Fragment>
-          <CarouselItem title="Más vistos" books={this.props.booksMoreSeen} />
-          <CarouselItem title="Recomendaciones" books={this.props.booksByCategories} />
+          <CarouselItem 
+            title="Más vistos" 
+            books={this.props.booksMoreSeen} 
+            onClickOpenBookModal={this.handleOnClickOpenBookModal}
+          />
+          <CarouselItem 
+            title="Recomendaciones" 
+            books={this.props.booksByCategories} 
+            onClickOpenBookModal={this.handleOnClickOpenBookModal}
+          />
           {this.renderCarouselByLastSearch()}
+          <BookModal />
         </Fragment>
       );
     }
@@ -82,6 +100,7 @@ HomeView.propTypes = {
     PropTypes.array
   ]).isRequired,
   getBooks: PropTypes.func.isRequired,
+  openBookModal: PropTypes.func.isRequired,
 };
 
 export default HomeView;
