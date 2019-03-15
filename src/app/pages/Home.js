@@ -5,16 +5,14 @@ import HomeView from './home/HomeView';
 import { getBooksToHomePending, openBookModal } from '../../store/Book';
 import { getCategoriesPending } from '../../store/Category';
 import { getBooksSelector } from '../../selectors/booksSelector';
-import { usersSelector, categoriesSelector }  from '../../selectors';
+import { getCategoriesSelector } from '../../selectors/categoriesSelector';
+import { getAuthenticatedUserSelector }  from '../../selectors/usersSelector';
 
 const getCategoriesIds = createSelector(
-  usersSelector.getAuthenticatedUser,
-  categoriesSelector.getCategories,
+  getAuthenticatedUserSelector,
+  getCategoriesSelector,
   (authenticatedUser, categories) => {
-    if (!isEmpty(authenticatedUser)) {
-      authenticatedUser.preferences.map(category => console.log(category.id));
-      return authenticatedUser.preferences.map(category => category.id);
-    }
+    if (!isEmpty(authenticatedUser)) return authenticatedUser.preferences.map(category => category.id);
 
     return !isEmpty(categories) ? categories.map(category => category.id) : null;   
   }
