@@ -2,14 +2,10 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import HomeView from './home/HomeView';
-import { getBooksToHomePending } from '../../store/Book';
+import { getBooksToHomePending, openBookModal } from '../../store/Book';
 import { getCategoriesPending } from '../../store/Category';
-
-import { 
-  booksSelector, 
-  usersSelector,
-  categoriesSelector 
-}  from '../../selectors';
+import { getBooksSelector } from '../../selectors/booksSelector';
+import { usersSelector, categoriesSelector }  from '../../selectors';
 
 const getCategoriesIds = createSelector(
   usersSelector.getAuthenticatedUser,
@@ -28,13 +24,13 @@ const getBooksIdsMoreSeen = state => state.ui.book.getIn(['homeData', 'booksIdsM
 const getBooksIdsByCategories = state => state.ui.book.getIn(['homeData', 'booksIdsByCategories']);
 const getBooksIdsByLastSearch = state => state.ui.book.getIn(['homeData', 'booksIdsByLastSearch']);
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   const homeData = state.ui.book.get('homeData');
   const categoryData = state.ui.category;
   const categoriesIds = getCategoriesIds(state);
-  const booksMoreSeen = booksSelector.getBooksToHome(state, getBooksIdsMoreSeen);
-  const booksByCategories = booksSelector.getBooksToHome(state, getBooksIdsByCategories);
-  const booksByLastSearch = booksSelector.getBooksToHome(state, getBooksIdsByLastSearch);
+  const booksMoreSeen = getBooksSelector(state, getBooksIdsMoreSeen);
+  const booksByCategories = getBooksSelector(state, getBooksIdsByCategories);
+  const booksByLastSearch = getBooksSelector(state, getBooksIdsByLastSearch);
   const fetchError = homeData.get('fetchError') || categoryData.get('fetchError');
   const isFetching = homeData.get('isFetching') || categoryData.get('isFetching');
   
@@ -58,7 +54,11 @@ const mapDispatchToProps = (dispatch) => {
 
     getCategories() {
       dispatch(getCategoriesPending());
-    }
+    },
+
+    openBookModal(params) {
+      dispatch(openBookModal(params));
+    },
   };
 }
 
