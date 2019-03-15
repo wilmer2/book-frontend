@@ -21,6 +21,8 @@ const initialState = fromJS({
     booksIdsMoreSeen: null,
     booksIdsByCategories: null,
     booksIdsByLastSearch: null,
+    bookIdModal: null,
+    openModal: false,
   },
 });
 
