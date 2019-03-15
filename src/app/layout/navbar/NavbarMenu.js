@@ -1,5 +1,4 @@
 import React, { PureComponent, Fragment } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import SearchField from './SearchField';
@@ -11,15 +10,15 @@ import Login from '../../Login';
 
 class NavbarMenu extends PureComponent {
   renderAvatar() {
-    const authenticatedFetched = this.props.authenticatedUserUi.get('fetched');
-    const authenticatedIsFetching = this.props.authenticatedUserUi.get('isFetching');
-    const authenticatedFetchedError = this.props.authenticatedUserUi.get('fetchError');
+    const { fetched, isFetching, fetchError } = this.props;
 
-    if (authenticatedFetched || authenticatedIsFetching || authenticatedFetchedError) {
+    if (fetched || isFetching || fetchError) {
       return (
         <Avatar 
           authenticatedUser={this.props.authenticatedUser}
-          authenticatedUserUi={this.props.authenticatedUserUi}
+          fetched={fetched}
+          fetchError={fetchError}
+          isFetching={isFetching}
           onClickLogout={this.props.onClickLogout}
           onClickGetAuthenticatedUser={this.props.onClickGetAuthenticatedUser}
         />
@@ -58,11 +57,9 @@ class NavbarMenu extends PureComponent {
 
 NavbarMenu.propTypes = {
   authenticatedUser: PropTypes.object.isRequired,
-  authenticatedUserUi: ImmutablePropTypes.mapContains({
-    isFetching: PropTypes.bool.isRequired,
-    fetched: PropTypes.bool.isRequired,
-    fetchError: PropTypes.bool.isRequired,
-  }).isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  fetched: PropTypes.bool.isRequired,
+  fetchError: PropTypes.bool.isRequired,
   onClickOpenLoginModal: PropTypes.func.isRequired,
   onCloseLoginModal: PropTypes.func.isRequired,
   openLoginModal: PropTypes.bool.isRequired,

@@ -1,26 +1,25 @@
 import React, { Component } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import NavbarMenu from './navbar/NavbarMenu';
 import NavbarBurger from './navbar/NavbarBurger';
 import BookApi from '../../utils/BookApi';
-import { usersSelector } from '../../selectors';
-import { connect } from 'react-redux';
-
+import { getAuthenticatedUserSelector } from '../../selectors/usersSelector';
 import { getAuthenticatedUserPending } from '../../store/Authenticated';
 import { openLoginModal, closeLoginModal, logout } from '../../store/Login';
 
 const mapStateToProps = (state) => {
-  const authenticatedUser = usersSelector.getAuthenticatedUser(state);
-  const authenticatedUserUi = state.ui.authenticated;
-  const openLoginModal = state.ui.login.get('openModal');
-  const fechingLogin = state.ui.login.get('isFetching');
+  const authenticatedUser = getAuthenticatedUserSelector(state);
+  const authenticatedUserUI = state.ui.authenticated;
+  const loginUI = state.ui.login;
 
   return {
     authenticatedUser,
-    authenticatedUserUi,
-    openLoginModal,
-    fechingLogin,
+    fetched: authenticatedUserUI.get('fetched'),
+    isFetching: authenticatedUserUI.get('isFetching'),
+    fetchError: authenticatedUserUI.get('fetchError'),
+    openLoginModal: loginUI.get('openModal'),
+    fechingLogin: loginUI.get('isFetching'),
   };
 }
 
@@ -61,9 +60,7 @@ class Navbar extends Component {
   }
 
   handleOnCloseLoginModal = () => {
-    if (this.props.fechingLogin) {
-      return;
-    }
+    if (this.props.fechingLogin) return;
 
     this.props.closeModal();
   }
@@ -96,7 +93,9 @@ class Navbar extends Component {
           onClickGetAuthenticatedUser={this.props.getAuthenticatedUser}
           openLoginModal={this.props.openLoginModal}
           authenticatedUser={this.props.authenticatedUser}
-          authenticatedUserUi={this.props.authenticatedUserUi}
+          fetched={this.props.fetched}
+          isFetching={this.props.isFetching}
+          fetchError={this.props.fetchError}
         />
       </nav> 
     );
@@ -105,11 +104,9 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   authenticatedUser: PropTypes.object.isRequired,
-  authenticatedUserUi: ImmutablePropTypes.mapContains({
-    isFetching: PropTypes.bool.isRequired,
-    fetched: PropTypes.bool.isRequired,
-    fetchError: PropTypes.bool.isRequired,
-  }).isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  fetched: PropTypes.bool.isRequired,
+  fetchError: PropTypes.bool.isRequired,
   openLoginModal: PropTypes.bool.isRequired,
   openModal: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
