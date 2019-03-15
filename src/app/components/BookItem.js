@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Img from 'react-image';
 import bookImage from '../../images/bookImage.jpeg';
-
+import withLinkStopPropagation from './WithLinkStopPropagationEnhancer';
 
 class BookItem extends PureComponent {
+  handleOnClickBook = () => {
+    this.props.onClickBook(this.props.book.id);
+  }
+
   render() {
     const book = this.props.book;
     const user = this.props.book.user;
 
     return (
-      <div className="columns">
+      <div className="columns" onClick={this.handleOnClickBook}>
         <div className="column">
           <figure>
             <Img 
@@ -25,10 +29,10 @@ class BookItem extends PureComponent {
         </div>
         <div className="column">
           <h3>
-            <Link to="book/{book.id}">{book.name}</Link>
+          {book.name}
           </h3>
           <div>
-            <Link to="user/{user.id}">by {user.name}</Link>
+            <Link to={`/user/${user.id}`} onClick={this.props.onClickLink}>by {user.name}</Link>
           </div>
           <div>
             <span>
@@ -62,6 +66,7 @@ BookItem.propTypes = {
       name: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  onClickBook: PropTypes.func.isRequired,
 };
 
-export default BookItem;
+export default withLinkStopPropagation(BookItem);
