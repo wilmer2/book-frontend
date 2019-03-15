@@ -17,7 +17,11 @@ class CarouselItem extends PureComponent {
           </div>
         </section>
         <Carousel>
-          {this.props.books.map(book => <BookItem key={`${book.id}-${this.props.title}`} book={book} />)}
+          {this.props.books.map(book => <BookItem 
+            key={`${book.id}-${this.props.title}`} 
+            book={book}
+            onClickBook={this.props.onClickOpenBookModal} 
+          />)}
         </Carousel>    
       </Fragment>
     );
@@ -26,7 +30,8 @@ class CarouselItem extends PureComponent {
 
 CarouselItem.propTypes = {
   books: PropTypes.array.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  onClickOpenBookModal: PropTypes.func.isRequired,
 };
 
 export default CarouselItem;
