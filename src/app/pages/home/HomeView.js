@@ -16,16 +16,17 @@ class HomeView extends PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    if (!isEqual(prevProps.categoriesIds, this.props.categoriesIds)) {
+    if (
+        !isEqual(prevProps.categoriesIds, this.props.categoriesIds) ||
+        !isEqual(prevProps.lastSearch, this.props.lastSearch)
+      ) {
       this.handleGetBooks();
     }
+    
   }
 
   handleGetBooks = () => {
-    if (isNull(this.props.categoriesIds)) {
-      this.props.getCategories();
-      return;
-    }
+    if (isNull(this.props.categoriesIds)) return this.props.getCategories();  
 
     this.props.getBooks({
       lastSearch: this.props.lastSearch,
