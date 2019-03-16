@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from "react-router";
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { Link } from 'react-router-dom';
 import BookItem from '../../components/BookItem';
 import Modal from '../../components/Modal';
 import isEmpty from 'lodash/isEmpty';
@@ -38,9 +39,9 @@ class BookModal extends PureComponent {
   }
 
   render() {
-    if (isEmpty(this.props.bookModal)) {
-      return null;
-    }
+    const book = this.props.bookModal;
+
+    if (isEmpty(book)) return null;
 
     return (
       <Modal  
@@ -48,13 +49,13 @@ class BookModal extends PureComponent {
         open={this.props.openModal}
       >
         <BookItem 
-          book={this.props.bookModal} 
+          book={book} 
           onClickBook={this.handleOnClickBook}
         />
         <div className="column">
-          <button className="button is-primary">
-            Leer más
-          </button>
+          <Link to={`/book/${book.id}/story`} className="button is-primary">
+            Leer
+          </Link>
         </div>
       </Modal>
     );
