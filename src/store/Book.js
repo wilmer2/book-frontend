@@ -9,6 +9,7 @@ import {
   PUT_BOOKS_IDS_BY_LAST_SEARCH,
   OPEN_BOOK_MODAL,
   CLOSE_BOOK_MODAL,
+  CANCEL_GET_BOOKS_TO_HOME_ASYNC,
 } from './book/types';
 
 export const getBooksToHomePending = createAction(GET_BOOKS_TO_HOME_ASYNC.PENDING);
@@ -19,3 +20,4 @@ export const putBooksByCategories = createAction(PUT_BOOKS_IDS_BY_CATEGORIES);
 export const putBooksByLastSearch = createAction(PUT_BOOKS_IDS_BY_LAST_SEARCH);
 export const openBookModal = createAction(OPEN_BOOK_MODAL);
 export const closeBookModal = createAction(CLOSE_BOOK_MODAL);
+export const cancelGetBooksToHomeAsync = createAction(CANCEL_GET_BOOKS_TO_HOME_ASYNC);
