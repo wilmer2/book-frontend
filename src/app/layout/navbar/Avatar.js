@@ -1,18 +1,12 @@
 import React, { PureComponent } from 'react';
-import ImmutableProptypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
-
 import SmallSpinner from '../../components/SmallSpinner';
 import AvatarReloadButton from './avatar/AvatarReloadButton';
 import AvatarDropDown from './avatar/AvatarDropDown';
 
-
 class Avatar extends PureComponent {
   render() {
-    const authenticatedUserUi = this.props.authenticatedUserUi;
-    const fetchError = authenticatedUserUi.get('fetchError');
-    const fetched = authenticatedUserUi.get('fetched');
-    const isFetching = authenticatedUserUi.get('isFetching');
+    const { fetched, isFetching, fetchError } = this.props;
     
     if (fetched) {
       return(
@@ -37,11 +31,9 @@ class Avatar extends PureComponent {
 
 Avatar.propTypes = {
   authenticatedUser: PropTypes.object.isRequired,
-  authenticatedUserUi: ImmutableProptypes.mapContains({
-    isFetching: PropTypes.bool.isRequired,
-    fetched: PropTypes.bool.isRequired,
-    fetchError: PropTypes.bool.isRequired,
-  }).isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  fetched: PropTypes.bool.isRequired,
+  fetchError: PropTypes.bool.isRequired,
   onClickLogout: PropTypes.func.isRequired,
   onClickGetAuthenticatedUser: PropTypes.func.isRequired,
 };

@@ -1,24 +1,22 @@
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
-import queryString from 'query-string';
 import isEmpty from 'lodash/isEmpty';
-import lodash from 'lodash';
 import HomeView from './home/HomeView';
-import { getBooksToHomePending } from '../../store/Book';
-
+import { getCategoriesPending } from '../../store/Category';
+import { getBooksSelector } from '../../selectors/booksSelector';
+import { getCategoriesSelector } from '../../selectors/categoriesSelector';
+import { getAuthenticatedUserSelector }  from '../../selectors/usersSelector';
 import { 
-  getBooksSelector, 
-  getAuthenticatedUser, 
-  categoriesSelector 
-}  from '../../selectors';
+  getBooksToHomePending, 
+  openBookModal , 
+  cancelGetBooksToHomeAsync, 
+} from '../../store/Book';
 
 const getCategoriesIds = createSelector(
-  getAuthenticatedUser,
-  categoriesSelector.getCategories,
+  getAuthenticatedUserSelector,
+  getCategoriesSelector,
   (authenticatedUser, categories) => {
-    if (!isEmpty(authenticatedUser)) {
-      return authenticatedUser.preferences.map(category => category.id);
-    }
+    if (!isEmpty(authenticatedUser)) return authenticatedUser.preferences.map(category => category.id);
 
     return !isEmpty(categories) ? categories.map(category => category.id) : null;   
   }
@@ -28,22 +26,22 @@ const getBooksIdsMoreSeen = state => state.ui.book.getIn(['homeData', 'booksIdsM
 const getBooksIdsByCategories = state => state.ui.book.getIn(['homeData', 'booksIdsByCategories']);
 const getBooksIdsByLastSearch = state => state.ui.book.getIn(['homeData', 'booksIdsByLastSearch']);
 
-
 const mapStateToProps = (state) => {
   const homeData = state.ui.book.get('homeData');
-  const authFetched = state.ui.authenticated.get('fetched');
+  const categoryData = state.ui.category;
   const categoriesIds = getCategoriesIds(state);
   const booksMoreSeen = getBooksSelector(state, getBooksIdsMoreSeen);
   const booksByCategories = getBooksSelector(state, getBooksIdsByCategories);
   const booksByLastSearch = getBooksSelector(state, getBooksIdsByLastSearch);
-
+  const fetchError = homeData.get('fetchError') || categoryData.get('fetchError');
+  const isFetching = homeData.get('isFetching') || categoryData.get('isFetching');
+  
   return {
-    fetched: homeData.get('fetched'),
-    isFetching: homeData.get('isFetching'),
-    fetchError: homeData.get('fetchError'),
+    fetched: homeData.get('fetched'), 
     lastSearch: homeData.get('lastSearch'),
+    isFetching,
+    fetchError,
     categoriesIds,
-    authFetched,
     booksMoreSeen,
     booksByCategories,
     booksByLastSearch,
@@ -53,7 +51,16 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getBooks(params) {
+      dispatch(cancelGetBooksToHomeAsync());
       dispatch(getBooksToHomePending(params));
+    },
+
+    getCategories() {
+      dispatch(getCategoriesPending());
+    },
+
+    openBookModal(params) {
+      dispatch(openBookModal(params));
     },
   };
 }

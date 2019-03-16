@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 import SmallSpinner from '../../components/SmallSpinner';
 import { Link } from 'react-router-dom';
 import { getCategoriesPending } from '../../../store/Category';
-import { categoriesSelector } from '../../../selectors';
+import { getCategoriesSelector } from '../../../selectors/categoriesSelector';
 
 const mapStateToProps = (state) => {
   const categoryUi = state.ui.category;
-  const categories = categoriesSelector.getCategories(state);
+  const categories = getCategoriesSelector(state);
 
   return {
     fetched: categoryUi.get('fetched'),

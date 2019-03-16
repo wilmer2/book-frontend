@@ -8,7 +8,7 @@ const ButtonReload = (props) => {
         <span>Algo salió mal</span>
       </div>
       <button className="button is-rounded" onClick={props.onClickFunc}>
-        <i class="fas fa-redo-alt"></i> Intentar de nuevo
+        <i className="fas fa-redo-alt"></i> Intentar de nuevo
       </button>
     </div>
   );
