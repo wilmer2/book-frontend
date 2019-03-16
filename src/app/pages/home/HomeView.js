@@ -49,11 +49,7 @@ class HomeView extends PureComponent {
   }   
 
   render() {
-    if (this.props.isFetching && !this.props.fetchError) {
-      return (
-        <MediumSpinner />
-      );
-    }
+    if (this.props.isFetching && !this.props.fetchError) return <MediumSpinner />;
 
     if (this.props.fetched) {
       return (
@@ -74,11 +70,7 @@ class HomeView extends PureComponent {
       );
     }
 
-    if (this.props.fetchError) {
-      return (
-        <ButtonReload onClickFunc={this.handleGetBooks} />
-      );
-    }    
+    if (this.props.fetchError) return <ButtonReload onClickFunc={this.handleGetBooks} />;   
   }
 }
 
