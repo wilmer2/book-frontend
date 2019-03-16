@@ -1,7 +1,7 @@
-import { take, call, put, all } from 'redux-saga/effects';
+import { take, call, put, all, fork, cancel } from 'redux-saga/effects';
 import BookApi from '../../../utils/BookApi';
 import isEmpty from 'lodash/isEmpty';
-import { GET_BOOKS_TO_HOME_ASYNC } from '../types';
+import { GET_BOOKS_TO_HOME_ASYNC, CANCEL_GET_BOOKS_TO_HOME_ASYNC } from '../types';
 
 import { 
   getBooksToHomeSuccess, 
@@ -36,8 +36,10 @@ function* getBooksToHome({ categoriesIds, lastSearch }) {
 export default function* watchGetBooksHome() {
   while(true) {
     const { payload } = yield take(GET_BOOKS_TO_HOME_ASYNC.PENDING);
+    const getBooksToHomeTask =  yield fork(getBooksToHome, payload);
 
-    yield call(getBooksToHome, payload);
+    yield take(CANCEL_GET_BOOKS_TO_HOME_ASYNC);
+    yield cancel(getBooksToHomeTask);
   }
 }
  
