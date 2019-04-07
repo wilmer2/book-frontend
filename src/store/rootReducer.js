@@ -4,7 +4,7 @@ import authenticated from './authenticated/reducer';
 import login from './login/reducer';
 import book from './book/reducer';
 import category from './category/reducer';
-
+import page from './page/reducer';
 
 import isEqual from 'lodash/isEqual';
 import { LOGOUT } from './login/types';
@@ -16,6 +16,7 @@ const appReducer = combineReducers({
     login,
     book,
     category,
+    page,
   }), 
 });
 

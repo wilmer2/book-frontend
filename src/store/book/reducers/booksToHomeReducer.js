@@ -1,5 +1,5 @@
 /**
-* Object for reducer home
+* Object for home reducer
 */
 import { 
   GET_BOOKS_TO_HOME_ASYNC,
@@ -31,10 +31,12 @@ const booksToHomeReducer = {
       fetched: true,
     },
   }),
+
   [PUT_BOOKS_IDS_MORE_SEEN]: (state, { payload: { idsList } }) => state.setIn(['homeData', 'booksIdsMoreSeen'], idsList),
   [PUT_BOOKS_IDS_BY_CATEGORIES]: (state, { payload: { idsList } }) => state.setIn(['homeData', 'booksIdsByCategories'], idsList),
   [PUT_BOOKS_IDS_BY_LAST_SEARCH]: (state, { payload: { idsList } }) => state.setIn(['homeData', 'booksIdsByLastSearch'], idsList),
-  [OPEN_BOOK_MODAL]: (state, { payload: { bookId } }) => state.withMutations((mutator) => {
+  
+  [OPEN_BOOK_MODAL]: (state, { payload: { bookId } }) => state.withMutations(mutator => {
     mutator.setIn(['homeData', 'bookIdModal'], bookId);
     mutator.setIn(['homeData', 'openModal'], true);
   }),

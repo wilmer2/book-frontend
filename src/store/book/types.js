@@ -3,6 +3,7 @@
 */
 import  { createAsyncTypes } from '../Utilities';
 
+export const GET_BOOK_BY_ID_ASYNC = createAsyncTypes('GET_BOOK_BY_ID');
 export const GET_BOOKS_BY_USER_ASYNC = createAsyncTypes('GET_BOOKS_BY_USER');
 export const GET_BOOKS_TO_HOME_ASYNC = createAsyncTypes('GET_BOOKS_TO_HOME'); 
 export const PUT_BOOKS_IDS_MORE_SEEN = 'PUT_BOOKS_IDS_MORE_SEEN';

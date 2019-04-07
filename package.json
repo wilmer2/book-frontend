@@ -25,6 +25,7 @@
     "react-immutable-proptypes": "^2.1.0",
     "react-loader-spinner": "^2.3.0",
     "react-redux": "^6.0.0",
+    "react-redux-toastr": "^7.4.8",
     "react-responsive-modal": "^3.5.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.2",

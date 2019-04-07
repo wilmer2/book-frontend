@@ -10,6 +10,7 @@ const initialState = fromJS({
   categories: {},
   readinglists: {},
   books: {},
+  pages: {},
 });
 
 const reducer =  typeToReducer({

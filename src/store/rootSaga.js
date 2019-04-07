@@ -3,7 +3,7 @@ import login from './login/sagas';
 import authenticated from './authenticated/sagas';
 import book from './book/saga';
 import category from './category/saga';
-
+import page from './page/saga';
 
 export default function* rootSaga() {
   yield all([
@@ -11,5 +11,6 @@ export default function* rootSaga() {
     authenticated(),
     book(),
     category(),
+    page(),
   ]);
 }

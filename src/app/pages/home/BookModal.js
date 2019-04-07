@@ -34,7 +34,7 @@ class BookModal extends PureComponent {
     if (this.props.openModal) this.props.closeBookModal();
   }
 
-  handleOnClickBook = (bookId) => {
+  handleOnClickBook = bookId => {
     this.props.history.push(`/book/${bookId}`);
   }
 

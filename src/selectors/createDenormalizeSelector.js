@@ -5,25 +5,20 @@ import isArray from 'lodash/isArray';
 import isUndefined from 'lodash/isUndefined';
 import isNull from 'lodash/isNull';
 
-export const createImmutableSelector = createSelectorCreator(
-  defaultMemoize,
-  is
-);
+export const createImmutableSelector = createSelectorCreator(defaultMemoize, is);
 
 const getEntities = state => state.entities;
 
-const getEntityFactory = (entitiyName) => {
-  return createImmutableSelector(
-    getEntities, 
-    entities => entities.get(entitiyName)
-  );
-}
+const getEntityFactory = entityName => createImmutableSelector(
+  getEntities, 
+  entities => entities.get(entityName)
+);
 
-const createDenormalizeSelector = (getIdsFunc, entitiyName, rootEntities) => {
-  return createImmutableSelector([getIdsFunc, getEntityFactory(entitiyName)], 
+const createDenormalizeSelector = (getIdsFunc, entityName, rootEntities) => {
+  return createImmutableSelector([getIdsFunc, getEntityFactory(entityName)], 
     (idsList, _) => {
       if (isArray(idsList) || idsList instanceof List) {
-        return idsList.map(id => build(rootEntities, entitiyName, id));
+        return idsList.map(id => build(rootEntities, entityName, id));
       }
 
       const id = idsList;
@@ -32,7 +27,7 @@ const createDenormalizeSelector = (getIdsFunc, entitiyName, rootEntities) => {
         return {};
       }
 
-      return build(rootEntities, entitiyName, id);
+      return build(rootEntities, entityName, id);
   });
 }
 
