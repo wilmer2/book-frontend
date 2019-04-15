@@ -23,25 +23,23 @@ const mapStateToProps = (state) => {
   };
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    openModal() {
-      dispatch(openLoginModal());
-    },
+const mapDispatchToProps = dispatch => ({
+  openModal() {
+    dispatch(openLoginModal());
+  },
 
-    closeModal() {
-      dispatch(closeLoginModal());
-    },
+  closeModal() {
+    dispatch(closeLoginModal());
+  },
 
-    getAuthenticatedUser() {
-      dispatch(getAuthenticatedUserPending());
-    },
+  getAuthenticatedUser() {
+    dispatch(getAuthenticatedUserPending());
+  },
 
-    logout() {
-      dispatch(logout());
-    },
-  };
-}
+  logout() {
+    dispatch(logout());
+  },
+});
 
 class Navbar extends Component {
   componentDidMount() {

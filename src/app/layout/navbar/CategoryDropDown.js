@@ -28,6 +28,10 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
+const LoadingIndicator = <a className="navbar-item">
+  <SmallSpinner />
+</a>;
+
 class CategoryDropDown extends PureComponent {
   handleOnMouseEnter = () => {
     if (!this.props.isFetching && !this.props.fetched) {
@@ -42,14 +46,6 @@ class CategoryDropDown extends PureComponent {
   }
 
   renderItems() {
-    if (this.props.isFetching) {
-      return (
-        <a className="navbar-item">
-          <SmallSpinner />
-        </a>
-      );
-    }
-
     if (this.props.fetched) {
       return this.props.categories.map(category => (
           <Link key={category.id} to="/about/{category.id}" className="navbar-item">
@@ -72,12 +68,17 @@ class CategoryDropDown extends PureComponent {
   }
 
   render() {
+    const {
+      isFetching
+    } = this.props;
+
     return (
      <div className="navbar-item has-dropdown is-hoverable" onMouseEnter={this.handleOnMouseEnter}>
         <a className="navbar-link">
           Categorías
         </a>
         <div className="navbar-dropdown">
+          { isFetching && <LoadingIndicator />
          {this.renderItems()}
         </div>
       </div>

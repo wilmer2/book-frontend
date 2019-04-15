@@ -12,18 +12,16 @@ const Wrapper = styled.div`
   }
 `;
 
-const SearchField = (props) => {
-  return (
-    <Wrapper className="field">
-      <div className="control">
-        <input 
-          className="input is-primary" 
-          type="text" 
-          placeholder="Buscar historias y personas" 
-        />
-      </div>
-    </Wrapper>
-  );
-}
+const SearchField = props => <Wrapper
+  className="field"
+>
+  <div className="control">
+    <input 
+      className="input is-primary" 
+      type="text" 
+      placeholder="Buscar historias y personas" 
+    />
+  </div>
+</Wrapper>
 
 export default SearchField;

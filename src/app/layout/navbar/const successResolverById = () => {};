@@ -1,0 +1,7 @@
+const successResolverById = () => {};
+const successResolverPlain = () => {};
+
+const successResolver = (data) =>
+  data.id ? successResolverById(data) : successResolverPlain(data);
+
+

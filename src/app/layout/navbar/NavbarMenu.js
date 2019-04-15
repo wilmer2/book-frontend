@@ -10,9 +10,7 @@ import Login from '../../Login';
 
 class NavbarMenu extends PureComponent {
   renderAvatar() {
-    const { fetched, isFetching, fetchError } = this.props;
-
-    if (fetched || isFetching || fetchError) {
+    if (this.shouldRenderAvatar()) {
       return (
         <Avatar 
           authenticatedUser={this.props.authenticatedUser}
@@ -26,6 +24,12 @@ class NavbarMenu extends PureComponent {
     } 
 
     return <NavbarButtons onClickOpenLoginModal={this.props.onClickOpenLoginModal} />;
+  }
+
+  shouldRenderAvatar() {
+    const { fetched, isFetching, fetchError } = this.props;
+
+    return fetched || isFetching || fetchError;
   }
 
   render() {
