@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Layout from './app/Layout';
+import Layout from '@/app/layout';
 import './index.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
