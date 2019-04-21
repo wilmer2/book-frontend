@@ -13,7 +13,7 @@ class AppContainer extends Component {
           <App />
         </Router>
       </Provider>
-    )
+    );
   }
 }
 
