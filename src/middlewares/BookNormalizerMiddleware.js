@@ -5,7 +5,7 @@ import omit from 'lodash/omit';
 import merge from 'lodash/merge';
 import isArray from 'lodash/isArray';
 
-import { mergeEntities } from '../store/Entities';
+import { mergeEntities } from '@/store/Entities';
 
 const middleware = ({ dispatch }) => next => (action) => {
   if (!has(action, ['payload', 'data'])) return next(action);
@@ -24,7 +24,7 @@ const middleware = ({ dispatch }) => next => (action) => {
   }
 
   if (isArray(payload.data)) {
-    merge(nextPayload, { idsList: payload.data.map(data => data.id) });
+    merge(nextPayload, { ids: payload.data.map(data => data.id) });
   } else {
     merge(nextPayload, { id: payload.data.id });
   }
