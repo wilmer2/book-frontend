@@ -1,7 +1,4 @@
-/**
-* Book Types
-*/
-import  { createAsyncTypes } from '../Utilities';
+import  { createAsyncTypes } from '@/store/utils';
 
 export const GET_BOOK_BY_ID_ASYNC = createAsyncTypes('GET_BOOK_BY_ID');
 export const GET_BOOKS_BY_USER_ASYNC = createAsyncTypes('GET_BOOKS_BY_USER');
