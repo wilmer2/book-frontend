@@ -1,13 +1,13 @@
 import { fork } from 'redux-saga/effects';
-import BookApi from '../../utils/BookApi';
-import { getBooksToHomeSaga } from './sagas';
-import { createSearchEntityByIdSaga } from '../../utils/sagaCreator';
+import BookApi from '@/utils/BookApi';
+import getBooksToHomeSaga from './sagas/getBooksToHomeSaga';
+import { createSearchEntityByIdSaga } from '@/store/sagaCreator';
 import { GET_BOOK_BY_ID_ASYNC } from './types';
 
 import { 
   getBookByIdSuccess, 
   getBookByIdError
-} from '../Book';
+} from '@/store/Book';
 
 const ENTITY_NAME = 'book';
 
