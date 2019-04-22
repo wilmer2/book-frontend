@@ -1,7 +1,7 @@
 import BookClient from './BookClient';
 import omit from 'lodash/omit';
 
-const login = data => {
+const login = (data) => {
   return new Promise((resolve, reject) => {
     const url = 'clients/web/admin/login';
 
@@ -31,7 +31,7 @@ const getCategories = () => {
   });
 }
 
-const getPages = requestParams => {
+const getPages = (requestParams) => {
   return new Promise((resolve, reject) => {
     const url = `pages/by-book/${requestParams.bookId}`;
     const params = omit(requestParams, 'bookId');
@@ -44,7 +44,7 @@ const getPages = requestParams => {
   });
 }
 
-const getPageById = requestParams => {
+const getPageById = (requestParams) => {
   return new Promise((resolve, reject) => {
     const url = `pages/${requestParams.id}`;
 
@@ -66,7 +66,7 @@ const getBooksToHome = (requestParams = null) => {
   });
 }
 
-const getBookById = requestParams => {
+const getBookById = (requestParams) => {
   return new Promise((resolve, reject) => {
     const url = `books/${requestParams.id}`;
 
@@ -79,7 +79,7 @@ const getBookById = requestParams => {
 const storeItem = (key, value) => localStorage.setItem(key, value);
 const removeItem = key => localStorage.removeItem(key);
 
-const storeToken = token => {
+const storeToken = (token) => {
   storeItem('token', token);
    
   BookClient.passToken(token);
@@ -91,7 +91,7 @@ const clearToken = () => {
   BookClient.removeToken();
 }
 
-const bookApi = {
+const BookApi = {
   login,
   storeItem,
   removeItem,
@@ -105,4 +105,4 @@ const bookApi = {
   getCategories,
 };
 
-export default bookApi;
+export default BookApi;
