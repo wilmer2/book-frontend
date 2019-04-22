@@ -1,5 +1,5 @@
 import axios from 'axios';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
 import { fromJS } from 'immutable';
 import { UNPROCESSABLE_ENTITY, SERVER_ERRORS, NOT_FOUND } from './statusCodes';
 import { 
@@ -14,7 +14,6 @@ const TIMEOUT = 30000;
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 const ECONNABORTED = 'ECONNABORTED';
 
-
 const axiosClient = axios.create({
   baseURL: BASE_URL,
   timeout: TIMEOUT,
@@ -24,21 +23,19 @@ const axiosClient = axios.create({
   },
 });
 
-
 const passToken = token => axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 const removeToken = () => axiosClient.defaults.headers.common['Authorization'] = ''; 
-
 
 const handleError = (code, { status, data: { message, errors } }) => {
   let errorResponse = message;
 
   if (code === ECONNABORTED) {
     errorResponse = timeoutMessage;
-  } else if(_.isEqual(status, UNPROCESSABLE_ENTITY)) {
+  } else if(isEqual(status, UNPROCESSABLE_ENTITY)) {
     errorResponse = fromJS(errors);
   } else if (status >= SERVER_ERRORS) {
     errorResponse = serverErrorMessage;
-  } else if (_.isEqual(status, NOT_FOUND)) {
+  } else if (isEqual(status, NOT_FOUND)) {
     errorResponse = notFoundMessage;
   }
 
@@ -78,11 +75,11 @@ const post = (...args) => {
   });
 }
 
-const bookClient = {
+const BookClient = {
   get,
   post,
   passToken,
   removeToken,
 };
 
-export default bookClient;
+export default BookClient;
