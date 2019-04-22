@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
 import Immutable from 'immutable';
-import _ from 'lodash';
+import each from 'lodash/each';
 import createSagaMiddleware from 'redux-saga';
-import BookNormalizerMiddleware from '../middlewares/BookNormalizerMiddleware';
+import BookNormalizerMiddleware from '@/middlewares/BookNormalizerMiddleware';
 import { createLogger } from 'redux-logger';
 import rootReducer from './rootReducer';
 import rootSaga from './rootSaga';
@@ -14,7 +14,7 @@ let middlewares = [sagaMiddleware, BookNormalizerMiddleware];
 const setStateTransformer = (state) => {
   const newState = {};
 
-  _.each(state, (value, key) => {
+  each(state, (value, key) => {
     if (Immutable.isImmutable(value)) {
       newState[key] = value.toJS();
     } else {
