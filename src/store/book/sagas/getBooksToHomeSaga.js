@@ -1,7 +1,10 @@
 import { take, call, put, all, fork, cancel } from 'redux-saga/effects';
-import BookApi from '../../../utils/BookApi';
+import BookApi from '@/utils/BookApi';
 import isEmpty from 'lodash/isEmpty';
-import { GET_BOOKS_TO_HOME_ASYNC, CANCEL_GET_BOOKS_TO_HOME_ASYNC } from '../types';
+import { 
+  GET_BOOKS_TO_HOME_ASYNC, 
+  CANCEL_GET_BOOKS_TO_HOME_ASYNC 
+} from '@/store/book/types';
 
 import { 
   getBooksToHomeSuccess, 
@@ -9,7 +12,7 @@ import {
   putBooksMoreSeend,
   putBooksByCategories,
   putBooksByLastSearch
-} from '../../Book';
+} from '@/store/Book';
 
 function* getBooksToHome({ categoriesIds, lastSearch }) {
   try {
