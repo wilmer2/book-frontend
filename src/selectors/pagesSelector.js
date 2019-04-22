@@ -1,6 +1,19 @@
-/**
-* Selector to have pages
-*/
-import createDenormalizeSelector from './createDenormalizeSelector';
+import { createDenormalizeSelectorByList, createDenormalizeSelectorById } from './createDenormalizeSelector';
 
-export const getPagesSelector = (state, getPagesIdsFunc) => createDenormalizeSelector(getPagesIdsFunc, 'pages', state.entities)(state); 
+const ENTITY_NAME = 'pages';
+
+const getEntities = state => state.entities.get(ENTITY_NAME);
+
+export const getPagesSelector = (state, getPagesIdsFunc) => createDenormalizeSelectorByList(
+  getPagesIdsFunc,
+  getEntities, 
+  ENTITY_NAME, 
+  state.entities
+)(state);
+
+export const findPageSelector = (state, getPageIdFunc) => createDenormalizeSelectorById(
+  getPageIdFunc,
+  getEntities, 
+  ENTITY_NAME, 
+  state.entities
+)(state);
