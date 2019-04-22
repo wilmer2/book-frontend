@@ -1,19 +1,19 @@
 import { fork } from 'redux-saga/effects';
 import BookApi from '../../utils/BookApi';
-import { createPaginationSaga, createSearchEntityByIdSaga } from '../../utils/sagaCreator';
-import { REQUEST_PAGINATION_OF_PAGES, GET_PAGE_BY_ID_ASYNC } from './types';
+import { createPaginationSaga, createSearchEntityByIdSaga } from '@/store/sagaCreator';
+import { GET_PAGES_ASYNC, GET_PAGE_BY_ID_ASYNC } from './types';
 import { 
   getPagesSuccess, 
   getPagesError, 
   getPagesPending ,
   getPageByIdSuccess, 
   getPageByIdError 
-} from '../Page';
+} from '@/store/Page';
 
 const ENTITY_NAME = 'page';
 
 const getPagesSaga = createPaginationSaga(
-  REQUEST_PAGINATION_OF_PAGES,
+  GET_PAGES_ASYNC.PENDING,
   getPagesPending,
   getPagesSuccess, 
   getPagesError,
