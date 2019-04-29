@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as toastrReducer} from 'react-redux-toastr'
 import entities from './entities/reducer';
 import authenticated from './authenticated/reducer';
 import login from './login/reducer';
@@ -18,13 +19,12 @@ const appReducer = combineReducers({
     category,
     page,
   }), 
+  toastr: toastrReducer,
 });
 
 const rootReducer = (state, action) => {
-  if (isEqual(action.type, LOGOUT)) {
-    state = undefined;
-  }
-
+  if (isEqual(action.type, LOGOUT)) state = undefined;
+  
   return appReducer(state, action);
 }
 
