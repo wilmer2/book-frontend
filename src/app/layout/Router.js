@@ -5,7 +5,7 @@ import Page from '@/app/views/Page/Show';
 
 const Router = () => <Switch>
   <Route exact path="/" component={Home} />
-  <Route exac path="/book-story/:bookId/:pageId" component={Page} />
+  <Route exac path="/book/:bookId/story/:pageId?" component={Page} />
 </Switch>;
 
 export default Router;
