@@ -13,8 +13,8 @@ export const createPaginationSaga = (
 
       yield put(successAction(data));
 
-    } catch(e) {
-      yield put(errorAction());
+    } catch(error) {
+      yield put(errorAction(error));
     }
   }
 
