@@ -19,5 +19,5 @@ export const createDenormalizeSelectorByList = (
   entityName,
   rootEntities
 ) => createImmutableSelector([getIdsFunc, getEntitiesFunc],
-  (ids, _) => ids.map(id => build(rootEntities, entityName, id))
+  (ids, _) => ids.map(id => build(rootEntities, entityName, id)) 
 );
