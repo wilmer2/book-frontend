@@ -1,4 +1,5 @@
 import has from 'lodash/has';
+import isArray from 'lodash/isArray';
 
 const asyncTypes = {
   PENDING: 'PENDING',
@@ -18,6 +19,12 @@ export const createAsyncTypes = (typeString) => {
   return newAsyncTypes;
 };
 
+export const resetPagination = state => state.withMutations((mutator) => {
+  mutator.set('ids', []);
+  mutator.setIn(['pagination', 'totalPages'], 1);
+  mutator.setIn(['pagination', 'currentPage'], 1);
+});
+
 const resolverByKeyMerge = (state, resolverObj, keyMerge) => {
   return !keyMerge ? state.merge(resolverObj) : state.mergeDeep({
     [keyMerge]: {
@@ -30,11 +37,24 @@ const successResolverPagination = (
   state, 
   { 
     ids, 
-    totalPages, 
-    currentPage 
-  } 
-) => state.withMutations(mutator => {
-  mutator.setIn(['pagination', currentPage], ids);
+    pagination: {
+      currentPage,
+      totalPages
+    }, 
+  },
+  infinityPagination 
+) => state.withMutations((mutator) => {
+
+  if (infinityPagination) {
+    mutator.updateIn(['pagination', 'ids'], (entityIds) => {
+      const oldIds = isArray(entityIds) ? entityIds : entityIds.toArray();
+
+      return oldIds.concat(ids);
+    });
+  } else {
+    mutator.setIn(['pagination', 'ids'], ids);
+  }
+
   mutator.set('fetched', true);
   mutator.set('isFetching', false);
   mutator.set('fetchError', false);
@@ -63,10 +83,19 @@ const successResolverPlain = (state, keyMerge) => {
   return resolverByKeyMerge(state, resolverObj, keyMerge);
 }
 
-const successResolver = (state, payload, keyMerge) => {
+const successResolver = (
+  state, 
+  payload, 
+  keyMerge, 
+  infinityPagination
+) => {
   if (payload) {
     if (has(payload, 'id')) return successResolverId(state , payload, keyMerge);
-    if (has(payload, 'currentPage')) return successResolverPagination(state, payload);
+    if (has(payload, 'pagination')) return successResolverPagination(
+      state, 
+      payload, 
+      infinityPagination
+    );
   }
 
   return successResolverPlain(state, keyMerge);
@@ -126,8 +155,8 @@ const errorResolver = (state, payload, keyMerge) => {
 
 export const createResolver = (keyMerge) => {
   const resolver = {
-    success(state, payload) {
-      return successResolver(state, payload, keyMerge);
+    success(state, payload, infinityPagination) {
+      return successResolver(state, payload, keyMerge, infinityPagination);
     },
 
     pending(state, payload) {
