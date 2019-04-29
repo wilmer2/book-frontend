@@ -1,7 +1,6 @@
 import normalize from 'json-api-normalizer';
 import has from 'lodash/has';
 import hasIn from 'lodash/hasIn';
-import omit from 'lodash/omit';
 import merge from 'lodash/merge';
 import isArray from 'lodash/isArray';
 
@@ -15,7 +14,7 @@ const middleware = ({ dispatch }) => next => (action) => {
   const nextPayload = {};
 
   if (hasIn(payload, ['meta', 'pagination'])) {
-    const pagination = omit(payload, ['include', 'custom']);
+    const { meta: { pagination } } = payload;
 
     nextPayload.pagination = {
       totalPages: pagination.total_pages,
