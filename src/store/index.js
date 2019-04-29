@@ -15,6 +15,8 @@ const setStateTransformer = (state) => {
   const newState = {};
 
   each(state, (value, key) => {
+    if (key === 'toastr') return;
+
     if (Immutable.isImmutable(value)) {
       newState[key] = value.toJS();
     } else {
