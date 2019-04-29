@@ -1,27 +1,20 @@
 import normalize from 'json-api-normalizer';
-import _ from 'lodash';
-import { mergeEntities } from '../store/Entities';
+import has from 'lodash/has';
+import hasIn from 'lodash/hasIn';
+import merge from 'lodash/merge';
+import isArray from 'lodash/isArray';
+
+import { mergeEntities } from '@/store/Entities';
 
 const middleware = ({ dispatch }) => next => (action) => {
-  if (!_.has(action, ['payload', 'data'])) {
-    return next(action);
-  }
-
+  if (!has(action, ['payload', 'data'])) return next(action);
+  
   let payload = action.payload;
-  let normalizeData;
+  const normalizeData = normalize(payload);
   const nextPayload = {};
 
-  if (_.has(payload, 'endpoint')) {
-    const endpoint = payload.endpoint;
-    payload = _.omit(payload, ['endpoint']);
-
-    normalizeData = normalize(payload, { endpoint, filterEndpoint: false });
-  } else {
-    normalizeData = normalize(payload);
-  }
-
-  if (_.hasIn(payload, ['meta', 'pagination'])) {
-    const pagination = _.omit(payload, ['include', 'custom']);;
+  if (hasIn(payload, ['meta', 'pagination'])) {
+    const { meta: { pagination } } = payload;
 
     nextPayload.pagination = {
       totalPages: pagination.total_pages,
@@ -29,13 +22,13 @@ const middleware = ({ dispatch }) => next => (action) => {
     };
   }
 
-  if (_.isArray(payload.data)) {
-    _.merge(nextPayload, { idsList: payload.data.map(data => data.id) });
+  if (isArray(payload.data)) {
+    merge(nextPayload, { ids: payload.data.map(data => data.id) });
   } else {
-    _.merge(nextPayload, { id: payload.data.id });
+    merge(nextPayload, { id: payload.data.id });
   }
 
-  _.merge(action.payload, nextPayload);
+  merge(action.payload, nextPayload);
 
   dispatch(mergeEntities(normalizeData));
   return next(action);

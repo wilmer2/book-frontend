@@ -1,5 +1,5 @@
 import * as Yup  from 'yup';
-import { validationMessages } from  '../utils/messages';
+import validationMessages from  './validatonMessages';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()

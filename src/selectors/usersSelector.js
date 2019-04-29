@@ -1,8 +1,13 @@
-/**
-* Selector to have users
-*/
-import createDenormalizeSelector from './createDenormalizeSelector';
+import { createDenormalizeSelectorById } from './createDenormalizeSelector';
+
+const AUTHENTICATED_ENTITY = 'authenticated';
 
 const getAuthenticatedId = state => state.ui.authenticated.get('id');
+const getAuthenticatedEntity = state => state.entities.get(AUTHENTICATED_ENTITY);
 
-export const getAuthenticatedUserSelector = state => createDenormalizeSelector(getAuthenticatedId, 'authenticated', state.entities)(state); 
+export const getAuthenticatedUserSelector = state => createDenormalizeSelectorById(
+  getAuthenticatedId, 
+  getAuthenticatedEntity,
+  AUTHENTICATED_ENTITY, 
+  state.entities
+)(state); 

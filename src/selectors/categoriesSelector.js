@@ -1,8 +1,13 @@
-/**
-* Selector  to obtain denormalized categories
-*/
-import createDenormalizeSelector from './createDenormalizeSelector';
+import { createDenormalizeSelectorByList } from './createDenormalizeSelector';
 
-const getCategoriesIds = state => state.ui.category.get('idsList');
+const ENTITY_NAME = 'categories';
 
-export const getCategoriesSelector = state => createDenormalizeSelector(getCategoriesIds, 'categories', state.entities)(state);
+const getCategoriesIds = state => state.ui.category.get('ids');
+const getEntities = state => state.entities.get(ENTITY_NAME);
+
+export const getCategoriesSelector = state => createDenormalizeSelectorByList(
+  getCategoriesIds,
+  getEntities, 
+  ENTITY_NAME, 
+  state.entities  
+)(state);
