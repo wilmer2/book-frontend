@@ -5,6 +5,6 @@ import Content from './Content';
 const Layout = () => <Fragment>
   <Navbar />
   <Content />    
-</Fragment>
+</Fragment>;
 
 export default Layout;
