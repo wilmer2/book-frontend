@@ -1,31 +1,46 @@
 import { connect } from 'react-redux';
-import { getPagesPending } from '@/store/Page';
+import { getPagesPending, resetPagination } from '@/store/Page';
+import { getBookByIdPending } from '@/store/Book';
 import { getPagesSelector } from '@/selectors/pagesSelector';
-import PageShow from './PageShow';
+import { findBookSelector } from '@/selectors/booksSelector';
 
+import Story from './Story';
+
+const getBookId = state => state.ui.book.getIn(['byId', 'id']);
 const getPageIds = state => state.ui.page.getIn(['pagination', 'ids']);
 
 const mapStateToProps = (state, ownProps) => {
-  const { bookId, pageId } = ownProps.match.params;
-  const pageUI = state.ui.page;
+  const { pageId, bookId } = ownProps.match.params;
+  
+  const book = findBookSelector(state, getBookId);
   const pages = getPagesSelector(state, getPageIds);
+  const bookUI = state.ui.book.get('byId');
+  const pageUI = state.ui.page;
 
   return {
-    isFetching: pageUI.get('isFetching'),
-    fetched: pageUI.get('fetched'),
-    fetchError: pageUI.get('fetchError'),
-    totalPages: pageUI.getIn(['pagination', 'totalPages']),
-    currentPage: pageUI.getIn(['pagination', 'currentPage']),
-    pages,
-    pageId,
+    fetched: bookUI.get('fetched'),
+    fetchError: bookUI.get('fetchError'),
+    isFetching: bookUI.get('isFetching'),
     bookId,
+    book,
+    pageUI,
+    pageId,
+    pages,
   };
 }
 
 const mapDispatchToProps = dispatch => ({
   getPages(params) {
     dispatch(getPagesPending(params));
-  }
+  },
+
+  getBook(params) {
+    dispatch(getBookByIdPending(params));
+  },
+
+  resetPagination() {
+    dispatch(resetPagination());
+  },
 }); 
 
-export default connect(mapStateToProps, mapDispatchToProps)(PageShow);
+export default connect(mapStateToProps, mapDispatchToProps)(Story);

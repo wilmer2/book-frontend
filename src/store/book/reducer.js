@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 import { createResolver } from '@/store/utils';
 
 import { 
+  GET_BOOK_BY_ID_ASYNC,
   GET_BOOKS_TO_HOME_ASYNC,
   PUT_BOOKS_IDS_MORE_SEEN, 
   PUT_BOOKS_IDS_BY_CATEGORIES, 
@@ -11,6 +12,7 @@ import {
   CLOSE_BOOK_MODAL
 } from './types';
 
+const byIdResolver = createResolver('byId');
 const homeDataResolver = createResolver('homeData');
 
 const initialState = fromJS({
@@ -41,6 +43,9 @@ const initialState = fromJS({
 });
 
 const reducer = typeToReducer({
+  [GET_BOOK_BY_ID_ASYNC.SUCCESS]: (state, { payload }) => byIdResolver.success(state, payload),
+  [GET_BOOK_BY_ID_ASYNC.PENDING]: state => byIdResolver.pending(state),
+  [GET_BOOK_BY_ID_ASYNC.ERROR]: (state, { payload }) => byIdResolver.error(state, payload),
   [GET_BOOKS_TO_HOME_ASYNC.SUCCESS]: state => homeDataResolver.success(state),
   [GET_BOOKS_TO_HOME_ASYNC.PENDING]: state => homeDataResolver.pending(state), 
   [GET_BOOKS_TO_HOME_ASYNC.ERROR]: state => homeDataResolver.error(state),
