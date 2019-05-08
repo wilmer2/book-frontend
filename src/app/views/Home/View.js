@@ -10,7 +10,7 @@ import { getCategoriesPending } from '@/store/Category';
 import { 
   getBooksToHomePending, 
   openBookModal , 
-  cancelGetBooksToHomeAsync, 
+  cancelGetBooksToHomeAsync 
 } from '@/store/Book';
 
 const getCategoriesIds = createSelector(
