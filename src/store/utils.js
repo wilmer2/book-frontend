@@ -19,12 +19,6 @@ export const createAsyncTypes = (typeString) => {
   return newAsyncTypes;
 };
 
-export const resetPagination = state => state.withMutations((mutator) => {
-  mutator.set('ids', []);
-  mutator.setIn(['pagination', 'totalPages'], 1);
-  mutator.setIn(['pagination', 'currentPage'], 1);
-});
-
 const resolverByKeyMerge = (state, resolverObj, keyMerge) => {
   return !keyMerge ? state.merge(resolverObj) : state.mergeDeep({
     [keyMerge]: {
@@ -61,6 +55,23 @@ const successResolverPagination = (
   mutator.setIn(['pagination', 'totalPages'], totalPages);
   mutator.setIn(['pagination', 'currentPage'], currentPage);
 });
+
+export const resetPagination = state => state.withMutations((mutator) => {
+  mutator.set('ids', []);
+  mutator.setIn(['pagination', 'totalPages'], 1);
+  mutator.setIn(['pagination', 'currentPage'], 1);
+});
+
+const resetResolver = (state, keyMerge) => {
+  const resolverObj = {
+    fetched: false,
+    fetchError: false,
+    isFetching: false,
+    errorMessage: '',
+  };
+
+  return resolverByKeyMerge(state, resolverObj, keyMerge);
+}
 
 const successResolverId = (state, { id }, keyMerge) => {
   const resolverObj = {
@@ -108,6 +119,7 @@ const pedingResolverId = (state, keyMerge) => {
     fetchError: false,
     isFetching: true,
     id: null,
+    errorMessage: '',
   };
 
   return resolverByKeyMerge(state, resolverObj, keyMerge);
@@ -118,6 +130,7 @@ const pedingResolverPlain = (state, keyMerge) => {
     fetched: false,
     fetchError: false,
     isFetching: true,
+    errorMessage: '',
   };
 
   return resolverByKeyMerge(state, resolverObj, keyMerge);
@@ -165,6 +178,10 @@ export const createResolver = (keyMerge) => {
 
     error(state, payload) {
       return errorResolver(state, payload, keyMerge);
+    },
+
+    reset(state, payload) {
+      return resetResolver(state, keyMerge);
     },
   };
 

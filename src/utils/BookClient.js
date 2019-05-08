@@ -1,18 +1,8 @@
 import axios from 'axios';
-import isEqual from 'lodash/isEqual';
-import { fromJS } from 'immutable';
-import { UNPROCESSABLE_ENTITY, SERVER_ERRORS, NOT_FOUND } from './statusCodes';
-import { 
-  serverErrorMessage, 
-  timeoutMessage, 
-  requestFailedMessage,
-  notFoundMessage 
-} from './messages';
 
 const BASE_URL = 'http://book.com/v1/';
 const TIMEOUT = 30000;
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
-const ECONNABORTED = 'ECONNABORTED';
 
 const axiosClient = axios.create({
   baseURL: BASE_URL,
@@ -23,10 +13,14 @@ const axiosClient = axios.create({
   },
 });
 
+axiosClient.defaults.headers.post['Content-type'] = CONTENT_TYPE;
+axiosClient.defaults.headers.put['Content-type'] = CONTENT_TYPE;
+axiosClient.defaults.headers.patch['Content-type'] = CONTENT_TYPE;
+
 const passToken = token => axiosClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 const removeToken = () => axiosClient.defaults.headers.common['Authorization'] = ''; 
 
-const handleError = (code, { status, data: { message, errors } }) => {
+/*const handleError = (code, { status, data: { message, errors } }) => {
   let errorResponse = message;
 
   if (code === ECONNABORTED) {
@@ -42,9 +36,6 @@ const handleError = (code, { status, data: { message, errors } }) => {
   return errorResponse;
 }
 
-axiosClient.defaults.headers.post['Content-type'] = CONTENT_TYPE;
-axiosClient.defaults.headers.put['Content-type'] = CONTENT_TYPE;
-axiosClient.defaults.headers.patch['Content-type'] = CONTENT_TYPE;
 
 axiosClient.interceptors.response.use(response => response, (error) => {
   const { response, request, code } = error;
@@ -57,7 +48,7 @@ axiosClient.interceptors.response.use(response => response, (error) => {
   }
 
   return Promise.reject({ errors });
-});
+});*/
 
 const get = (...args) => {
   return new Promise((resolve, reject) => {

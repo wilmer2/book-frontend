@@ -6,6 +6,8 @@ import login from './login/reducer';
 import book from './book/reducer';
 import category from './category/reducer';
 import page from './page/reducer';
+import user from './user/reducer';
+
 
 import isEqual from 'lodash/isEqual';
 import { LOGOUT } from './login/types';
@@ -18,6 +20,7 @@ const appReducer = combineReducers({
     book,
     category,
     page,
+    user,
   }), 
   toastr: toastrReducer,
 });

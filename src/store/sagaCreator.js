@@ -1,4 +1,6 @@
 import { take, call, put, select } from 'redux-saga/effects';
+import parseError from '@/utils/parseError';
+import isObject from 'lodash/isObject';
 
 export const createPaginationSaga = (
   requestActionType,
@@ -14,7 +16,9 @@ export const createPaginationSaga = (
       yield put(successAction(data));
 
     } catch(error) {
-      yield put(errorAction(error));
+      const errorResponse = parseError(error);
+
+      yield put(errorAction(errorResponse));
     }
   }
 
@@ -47,8 +51,10 @@ export const createSearchEntityByIdSaga = (
         yield put(successAction({ id: payload.id }));
       }
       
-    } catch(e) {
-      yield put(errorAction());
+    } catch(error) {
+      const errorResponse = parseError(error);
+
+      yield put(errorAction(errorResponse));
     }
   }
 
@@ -57,6 +63,45 @@ export const createSearchEntityByIdSaga = (
       const { payload } = yield take(requestActionType);
 
       yield call(getEntityById, payload);
+    }
+  }
+}
+
+export const storeDataSaga = (
+  requestActionType,
+  successAction,
+  errorAction,
+  apiFunc
+) => {
+  function* storeData(payload, meta) {
+    const { resetForm, setErrors, setSubmitting } = meta;
+    
+    try {
+      const data = yield call(apiFunc, payload);
+      yield put(successAction(data));
+      yield call(resetForm);
+
+    } catch(error) {
+      const errorResponse = parseError(error);
+
+      yield call(setSubmitting, false);
+
+      if (isObject(errorResponse)) {
+        yield call(setErrors, errorResponse);
+        yield put(errorAction());
+
+        return;
+      }
+      
+      yield put(errorAction({ errors : errorResponse }));
+    }
+  }
+
+  return function* watchSendData() {
+    while(true) {
+      const { payload, meta } = yield take(requestActionType);
+
+      yield call(storeData, payload, meta);
     }
   }
 }

@@ -76,6 +76,16 @@ const getBookById = (requestParams) => {
   });
 }
 
+const storeUser = (data) => {
+  return new Promise((resolve, reject) => {
+    const url = 'register';
+
+    return BookClient.post(url, data)
+      .then(response => resolve(response.data))
+      .catch(reject);
+  });
+}
+
 const storeItem = (key, value) => localStorage.setItem(key, value);
 const removeItem = key => localStorage.removeItem(key);
 
@@ -103,6 +113,7 @@ const BookApi = {
   getBooksToHome,
   getBookById,
   getCategories,
+  storeUser,
 };
 
 export default BookApi;

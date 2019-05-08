@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 
 class FormButton extends PureComponent {
   render() {
-    const isFetching = this.props.isFetching;
+    const {
+      isFetching,
+      color,
+      size,
+      text
+    } = this.props;
 
     return (
       <button 
-        className={`button ${ this.props.color } ${ this.props.size } ${ isFetching && 'is-loading'}`}
+        className={`button ${ color } ${ size } ${ isFetching && 'is-loading'}`}
         disabled={isFetching}
         type="submit"
       >
-        {this.props.text}
+        {text}
       </button>
     )
   }
