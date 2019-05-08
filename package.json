@@ -67,6 +67,7 @@
     "react-redux-toastr": "^7.4.8",
     "react-responsive-modal": "^3.5.1",
     "react-router-dom": "^4.3.1",
+    "react-select": "^2.4.3",
     "redux": "^4.0.1",
     "redux-actions": "^2.6.4",
     "redux-logger": "^3.0.6",
