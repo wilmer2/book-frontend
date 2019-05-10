@@ -29,7 +29,7 @@ class UserFields extends PureComponent {
         <div className="field">
           <label className="label">Categorías</label>
           <div className="control">
-            <Field name="categories_ids" render={({ field, form }) => (
+            <Field name="categoriesIds" render={({ field, form }) => (
               <MySelect 
                 name={field.name}
                 value={field.value}
@@ -40,7 +40,7 @@ class UserFields extends PureComponent {
               />
             )}/>           
           </div>
-          <ErrorMessage name="categories_ids" component={ErrorFieldMessage} />
+          <ErrorMessage name="categoriesIds" component={ErrorFieldMessage} />
         </div>
         <div className="field">
           <label className="label">Contraseña</label>

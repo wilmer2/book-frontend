@@ -10,6 +10,7 @@ import { getCategoriesPending } from '@/store/Category';
 import MediumSpinner from '@/app/components/ui/MediumSpinner';
 import ButtonReload from '@/app/components/ui/ButtonReload';
 import ErrorGeneralMessage from '@/app/components/ui/ErrorGeneralMessage';
+import FormTitle from '@/app/components/forms/components/FormTitle';
 import FormButton from '@/app/components/forms/components/FormButton';
 import UserFields from './UserFields';
 
@@ -45,12 +46,6 @@ const SuccessMessage = () => <div
   </article>
 </div>;
 
-const UserFormTitle = props => <div 
-  className="column"
->
-  <h1 className="title">{props.title}</h1>
-</div>;
-
 class UserForm extends PureComponent {
   componentDidMount() {
     const { categoryUI } = this.props;
@@ -59,8 +54,8 @@ class UserForm extends PureComponent {
   }
 
   handleOnSubmit = (inputData, actions) => {
-    const categoriesIds = inputData.categories_ids.map(categoryId => categoryId.value);
-    const values = { ...inputData, categories_ids: categoriesIds };
+    const categoriesIds = inputData.categoriesIds.map(categoryId => categoryId.value);
+    const values = { ...inputData, categoriesIds };
     
     this.props.onSubmitUser({ values, actions });
   }
@@ -83,7 +78,7 @@ class UserForm extends PureComponent {
       email: '',
       password: '',
       name: '',
-      categories_ids: categoriesIds,
+      categoriesIds,
     }, user);
 
     return (
@@ -100,7 +95,7 @@ class UserForm extends PureComponent {
             {fetchError && !isEmpty(errorMessage) && <ErrorGeneralMessage 
               errorMessage={errorMessage}
             />}
-            <UserFormTitle title={title} />
+            <FormTitle title={title} />
             <UserFields categories={categories} />
             <div className="column">
               <FormButton 
