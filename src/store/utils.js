@@ -57,7 +57,10 @@ const successResolverPagination = (
 });
 
 export const resetPagination = state => state.withMutations((mutator) => {
-  mutator.set('ids', []);
+  mutator.set('fetched', false);
+  mutator.set('isFetching', false);
+  mutator.set('fetchError', false);
+  mutator.setIn(['pagination' ,'ids'], []);
   mutator.setIn(['pagination', 'totalPages'], 1);
   mutator.setIn(['pagination', 'currentPage'], 1);
 });
