@@ -12,9 +12,10 @@ function* sendCredentials(payload, meta) {
 
   try {
     const token = yield call(BookApi.login, payload);
+    const { accessToken, refreshToken } = token;
 
     yield put(loginSuccess());
-    yield call(BookApi.storeToken, token);
+    yield call(BookApi.storeToken, accessToken, refreshToken);
     yield call(resetForm);
     yield put(closeLoginModal());
     yield put(getAuthenticatedUserPending());
