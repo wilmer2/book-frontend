@@ -6,8 +6,7 @@ export const createPaginationSaga = (
   requestActionType,
   successAction, 
   errorAction,
-  apiFunc, 
-  entityName
+  apiFunc
 ) => {
   function* getPages(payload) {
     try {
@@ -16,9 +15,9 @@ export const createPaginationSaga = (
       yield put(successAction(data));
 
     } catch(error) {
-      const errorResponse = parseError(error);
+      const errors = parseError(error);
 
-      yield put(errorAction(errorResponse));
+      yield put(errorAction({ errors }));
     }
   }
 
@@ -52,9 +51,9 @@ export const createSearchEntityByIdSaga = (
       }
       
     } catch(error) {
-      const errorResponse = parseError(error);
+      const errors = parseError(error);
 
-      yield put(errorAction(errorResponse));
+      yield put(errorAction({ errors }));
     }
   }
 
