@@ -5,9 +5,9 @@ import { toastr } from 'react-redux-toastr';
 import { Link } from 'react-router-dom';
 
 const SideBarItems = (props) => {
-  const { pages, book } = props;
+  const { pages, book, fetched } = props;
 
-  if (!pages.length) return <li>Aún no se han escrito páginas</li>;
+  if (!pages.length && fetched) return <li>No se han escrito páginas</li>;
   
   return pages.map(page => <li 
     key={page.id}>
@@ -28,6 +28,14 @@ const ButtonLoadMore = props => <a
   disabled={props.isFetching}
 >
   Mostrar más
+</a>;
+
+/* eslint-disable-next-line */
+const ButtonError = props => <a
+  onClick={props.onClickLoadMore}
+  disabled={props.isFetching}
+>
+  Volver a cargar
 </a>;
 
 class SideBar extends PureComponent {
@@ -58,7 +66,7 @@ class SideBar extends PureComponent {
   }
 
   render() {
-    const { pages, book, isFetching } = this.props;
+    const { pages, book, isFetching, fetchError, fetched } = this.props;
 
     return (
       <aside className="menu">
@@ -79,10 +87,15 @@ class SideBar extends PureComponent {
           <SideBarItems 
             pages={pages}
             book={book}
+            fetched={fetched}
           />
         </ul>
         <p className="menu-label">
           {isFetching && <i className="fas fa-spinner fa-spin"></i>}
+          {fetchError && <ButtonError 
+            onClickLoadMore={this.handleOnClickLoadMore}
+            isFetching={isFetching} 
+          />}
           {this.shouldRenderLoadMore() && <ButtonLoadMore 
             onClickLoadMore={this.handleOnClickLoadMore}
             isFetching={isFetching}
@@ -99,8 +112,9 @@ SideBar.propTypes = {
     PropTypes.object,
     PropTypes.array
   ]).isRequired,
-  isFetching: PropTypes.bool,
-  fetchError: PropTypes.bool,
+  isFetching: PropTypes.bool.isRequired,
+  fetchError: PropTypes.bool.isRequired,
+  fetched: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
   onLoadMore: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
