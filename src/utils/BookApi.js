@@ -1,4 +1,5 @@
 import BookClient from './BookClient';
+import humps from 'humps';
 import omit from 'lodash/omit';
 
 const login = (data) => {
@@ -80,6 +81,16 @@ const storeUser = (data) => {
   return new Promise((resolve, reject) => {
     const url = 'register';
 
+    return BookClient.post(url, humps.decamelizeKeys(data))
+      .then(response => resolve(response.data))
+      .catch(reject);
+  });
+}
+
+const refreshToken = (data) => {
+  return new Promise((resolve, reject) => {
+    const url = 'clients/web/admin/refresh';
+
     return BookClient.post(url, data)
       .then(response => resolve(response.data))
       .catch(reject);
@@ -89,15 +100,16 @@ const storeUser = (data) => {
 const storeItem = (key, value) => localStorage.setItem(key, value);
 const removeItem = key => localStorage.removeItem(key);
 
-const storeToken = (token) => {
-  storeItem('token', token);
+const storeToken = (accessToken, refreshToken) => {
+  storeItem('token', accessToken);
+  storeItem('refreshToken', refreshToken);
    
-  BookClient.passToken(token);
+  BookClient.passToken(accessToken);
 }
 
 const clearToken = () => {
   localStorage.removeItem('token');
-
+  localStorage.removeItem('refreshToken');
   BookClient.removeToken();
 }
 
@@ -107,6 +119,7 @@ const BookApi = {
   removeItem,
   storeToken,
   clearToken,
+  refreshToken,
   getPages,
   getPageById,
   getAuthenticatedUser,
