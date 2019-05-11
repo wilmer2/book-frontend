@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import NavbarMenu from './NavbarMenu';
 import NavbarBurger from './NavbarBurger';
 import BookApi from '@/utils/BookApi';
@@ -73,15 +74,14 @@ class Navbar extends Component {
     return (
       <nav className="navbar is-primary" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          {/* eslint-disable-next-line */}
-          <a className="navbar-item">
+          <Link className="navbar-item" to="/">
             <img 
               src="https://bulma.io/images/bulma-logo-white.png" 
               alt="icon" 
               width="112"
               height="28" 
             />
-          </a>
+          </Link>
           <NavbarBurger />
         </div>
         <NavbarMenu
