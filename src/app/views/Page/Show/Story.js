@@ -28,6 +28,7 @@ const StoryView = (props) => {
   const fetchError = pageUI.get('fetchError');
   const errorMessage = pageUI.get('errorMessage');
   const isFetching = pageUI.get('isFetching');
+  const fetched = pageUI.get('fetched');
 
   return (
     <div className="columns">
@@ -38,6 +39,7 @@ const StoryView = (props) => {
           onLoadMore={props.onLoadMore}
           isFetching={isFetching}
           fetchError={fetchError}
+          fetched={fetched}
           errorMessage={errorMessage}
           currentPage={currentPage}
           totalPages={totalPages}
@@ -74,17 +76,25 @@ class Story extends PureComponent {
   }
 
   render() {
-    const { fetched, isFetching, fetchError } = this.props;
+    const { 
+      fetched, 
+      isFetching, 
+      fetchError,
+      pages,
+      pageUI,
+      pageId,
+      book 
+    } = this.props;
 
     return (
       <Fragment>
         {isFetching && <MediumSpinner />}
         {fetchError && <ButtonReload onClickFunc={this.handleGetBook} />}
         {fetched && <StoryView 
-          book={this.props.book}
-          pages={this.props.pages}
-          pageId={this.props.pageId}
-          pageUI={this.props.pageUI}
+          book={book}
+          pages={pages}
+          pageId={pageId}
+          pageUI={pageUI}
           onLoadMore={this.handleLoadMore}
         />}
       </Fragment>
