@@ -9,7 +9,7 @@ import {
   getBookByIdError
 } from '@/store/Book';
 
-const ENTITY_NAME = 'book';
+const ENTITY_NAME = 'books';
 
 const getBookByIdSaga = createSearchEntityByIdSaga(
   GET_BOOK_BY_ID_ASYNC.PENDING,
