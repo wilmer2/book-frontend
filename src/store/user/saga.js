@@ -4,14 +4,11 @@ import { storeDataSaga } from '@/store/sagaCreator';
 import { storeUserSuccess, storeUserError } from '@/store/User';
 import { STORE_USER_ASYNC } from './types';
 
-const ENTITY_NAME = 'user';
-
 const storeUser = storeDataSaga(
   STORE_USER_ASYNC.PENDING,
   storeUserSuccess, 
   storeUserError,
-  BookApi.storeUser,
-  ENTITY_NAME
+  BookApi.storeUser
 );
 
 export default function* rootSaga() {
