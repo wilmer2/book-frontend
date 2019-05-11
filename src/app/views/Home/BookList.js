@@ -8,12 +8,14 @@ import CarouselItem from './CarouselItem';
 import BookModal from './BookModal';
 
 const CarouselByLastSearch = (props) => {
-  if (isEmpty(props.lastSearch)) return null;
+  const { lastSearch, books } = props;
+
+  if (isEmpty(lastSearch)) return null;
 
   return (
     <CarouselItem
       title="Por última búsqueda" 
-      books={props.books} 
+      books={books} 
       onClickOpenBookModal={props.onClickOpenBookModal}
     />
   );
