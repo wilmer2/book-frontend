@@ -1,6 +1,8 @@
 import { take, call, put, all, fork, cancel } from 'redux-saga/effects';
 import BookApi from '@/utils/BookApi';
 import isEmpty from 'lodash/isEmpty';
+import merge from 'lodash/merge';
+
 import { 
   GET_BOOKS_TO_HOME_ASYNC, 
   CANCEL_GET_BOOKS_TO_HOME_ASYNC 
@@ -16,13 +18,15 @@ import {
 
 function* getBooksToHome({ categoriesIds, lastSearch }) {
   try {
+    const params = { include: 'user '};
+
     const [booksMoreSeen, booksByCategories] = yield all([
-      call(BookApi.getBooksToHome, { include: 'user' }),
-      call(BookApi.getBooksToHome, { categories_ids: categoriesIds, include: 'user' })
+      call(BookApi.getBooksToHome, params),
+      call(BookApi.getBooksToHome, merge(params, { categoriesIds }))
     ]);
 
     if (!isEmpty(lastSearch)) {
-      const booksByLastSearch = yield call(BookApi.getBooksToHome, { searchName: lastSearch, include: 'user' });
+      const booksByLastSearch = yield call(BookApi.getBooksToHome, merge(params, { searchName: lastSearch }));
 
       yield put(putBooksByLastSearch(booksByLastSearch));
     }
