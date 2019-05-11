@@ -1,10 +1,11 @@
 import React, { PureComponent, Fragment } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import loginSchema from '@/validationSchemas/loginSchema';
+import { connect } from 'react-redux';
+import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
+import { Link, withRouter } from 'react-router-dom';
 import { loginPending } from '@/store/Login';
-
+import loginSchema from '@/validationSchemas/loginSchema';
 import { Formik, Form } from 'formik';
 import LoginFields from './LoginFields';
 import LoginButtons from './LoginButtons';
@@ -28,8 +29,15 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class LoginForm extends PureComponent {
+  componentDidUpdate() {
+    const { location : { pathname }, fetched } = this.props;
+    
+    if (isEqual(pathname, '/register') && fetched)
+      this.props.history.push('/');
+  }
+  
   handleOnSubmit = (values, actions) => {
-    this.props.submitLogin(values);
+    this.props.submitLogin({ values, actions });
   }
 
   render() {
@@ -42,7 +50,9 @@ class LoginForm extends PureComponent {
 
     return (
       <Fragment>
-        {fetchError && <ErrorGeneralMessage errorMessage={errorMessage} />}
+        {fetchError && !isEmpty(errorMessage) && <ErrorGeneralMessage 
+          errorMessage={errorMessage} 
+        />}
         <Formik
           initialValues={initialValues}
           validationSchema={loginSchema}
@@ -65,8 +75,11 @@ class LoginForm extends PureComponent {
 }
 
 LoginForm.propTypes = {
+  fetched: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  fetchError: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string,
   submitLogin: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginForm));
