@@ -10,7 +10,7 @@ const NavbarButtons = props => <div
     <a className="button is-primary is-inverted is-outlined" onClick={props.onClickOpenLoginModal}>
       Iniciar sesión
     </a>
-    <Link to="register" className="button is-primary is-inverted">
+    <Link to="/register" className="button is-primary is-inverted">
       Registrarse
     </Link>
   </div>
