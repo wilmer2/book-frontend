@@ -14,11 +14,11 @@ const middleware = ({ dispatch }) => next => (action) => {
   const nextPayload = {};
 
   if (hasIn(payload, ['meta', 'pagination'])) {
-    const { meta: { pagination } } = payload;
+    const { meta: { pagination: { totalPages, currentPage } } } = payload;
 
     nextPayload.pagination = {
-      totalPages: pagination.total_pages,
-      currentPage: pagination.current_page,
+      totalPages,
+      currentPage,
     };
   }
 
