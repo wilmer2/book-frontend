@@ -9,14 +9,13 @@ import {
   getPageByIdError 
 } from '@/store/Page';
 
-const ENTITY_NAME = 'page';
+const ENTITY_NAME = 'pages';
 
 const getPagesSaga = createPaginationSaga(
   GET_PAGES_ASYNC.PENDING,
   getPagesSuccess, 
   getPagesError,
-  BookApi.getPages,
-  ENTITY_NAME
+  BookApi.getPages
 );
 
 const getPageByIdSaga = createSearchEntityByIdSaga(
