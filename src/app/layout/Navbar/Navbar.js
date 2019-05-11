@@ -45,9 +45,10 @@ const mapDispatchToProps = dispatch => ({
 class Navbar extends Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
+    const refreshToken = localStorage.getItem('refreshToken');
 
     if (token) {
-      BookApi.storeToken(token);
+      BookApi.storeToken(token, refreshToken);
       this.props.getAuthenticatedUser();
     }
   }
