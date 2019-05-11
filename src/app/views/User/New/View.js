@@ -2,8 +2,9 @@ import React, { PureComponent  } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
 import  { connect } from 'react-redux';
-import UserForm from '@/app/components/forms/UserForm';
 import { storeUserPending, storeUserReset } from '@/store/User';
+import onlyGuessUser from '@/app/components/wrappers/OnyGuessUserEnhancer';
+import UserForm from '@/app/components/forms/UserForm';
 
 const mapStateToProps = (state) => {
   const userUI = state.ui.user.get('store');
@@ -49,6 +50,7 @@ View.propTypes = {
     errorMessage: PropTypes.string,
   }),
   storeUser: PropTypes.func.isRequired,
+  resetStoreUser: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(View);
+export default connect(mapStateToProps, mapDispatchToProps)(onlyGuessUser(View));
