@@ -91,7 +91,7 @@ const refreshToken = (data) => {
   return new Promise((resolve, reject) => {
     const url = 'clients/web/admin/refresh';
 
-    return BookClient.post(url, data)
+    return BookClient.post(url, humps.decamelizeKeys(data))
       .then(response => resolve(response.data))
       .catch(reject);
   });
