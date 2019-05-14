@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
   },
 });
 
-const onlyGuessUser = WrappedComponent => {
+const onlyGuessUser = (WrappedComponent) => {
   class OnlyGuessUserContainer extends PureComponent {
     componentDidMount() {
       const refreshToken = localStorage.getItem('refreshToken');
