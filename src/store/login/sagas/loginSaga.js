@@ -41,7 +41,7 @@ function* sendCredentials(payload, meta) {
   }
 }
 
-export default function* loginFlow() {
+export default function* watchLogin() {
   while(true) {
     const { payload, meta } = yield take(LOGIN_USER_ASYNC.PENDING);
 
