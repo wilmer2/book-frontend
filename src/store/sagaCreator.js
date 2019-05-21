@@ -76,7 +76,7 @@ export const storeDataSaga = (
     const { resetForm, setErrors, setSubmitting } = meta;
     
     try {
-      const data = yield call(apiFunc, payload);
+      const data = yield call(apiFunc, payload, payload.id);
       yield put(successAction(data));
       yield call(resetForm);
 
