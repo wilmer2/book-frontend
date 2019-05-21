@@ -17,8 +17,8 @@ function* sendCredentials(payload, meta) {
     yield put(loginSuccess());
     yield call(BookApi.storeToken, accessToken, refreshToken);
     yield call(resetForm);
-    yield put(closeLoginModal());
     yield put(getAuthenticatedUserPending());
+    yield put(closeLoginModal());
     
   } catch(error) {
     const errors = parseError(error);
