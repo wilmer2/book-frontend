@@ -4,67 +4,15 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import NavbarMenu from './NavbarMenu';
 import NavbarBurger from './NavbarBurger';
-import BookApi from '@/utils/BookApi';
-import { getAuthenticatedUserSelector } from '@/selectors/usersSelector';
-import { getAuthenticatedUserPending } from '@/store/Authenticated';
-import { openLoginModal, closeLoginModal, logout } from '@/store/Login';
-
-const mapStateToProps = (state) => {
-  const authenticatedUser = getAuthenticatedUserSelector(state);
-  const authenticatedUserUI = state.ui.authenticated;
-  const loginUI = state.ui.login;
-
-  return {
-    authenticatedUser,
-    fetched: authenticatedUserUI.get('fetched'),
-    isFetching: authenticatedUserUI.get('isFetching'),
-    fetchError: authenticatedUserUI.get('fetchError'),
-    openLoginModal: loginUI.get('openModal'),
-    fechingLogin: loginUI.get('isFetching'),
-  };
-}
+import { logout } from '@/store/Login';
 
 const mapDispatchToProps = dispatch => ({
-  openModal() {
-    dispatch(openLoginModal());
-  },
-
-  closeModal() {
-    dispatch(closeLoginModal());
-  },
-
-  getAuthenticatedUser() {
-    dispatch(getAuthenticatedUserPending());
-  },
-
   logout() {
     dispatch(logout());
   },
 });
 
 class Navbar extends Component {
-  componentDidMount() {
-    const token = localStorage.getItem('token');
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    if (token) {
-      BookApi.storeToken(token, refreshToken);
-      this.props.getAuthenticatedUser();
-    }
-  }
-
-  handleOnClickOpenLoginModal = (e) => {
-    e.preventDefault();
-    
-    this.props.openModal();
-  }
-
-  handleOnCloseLoginModal = () => {
-    if (this.props.fechingLogin) return;
-
-    this.props.closeModal();
-  }
-
   handleOnClickLogout = (e) => {
     e.preventDefault();
 
@@ -72,6 +20,8 @@ class Navbar extends Component {
   }
 
   render() {
+    const { authenticatedUser, categories } = this.props;
+
     return (
       <nav className="navbar is-primary" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
@@ -86,15 +36,9 @@ class Navbar extends Component {
           <NavbarBurger />
         </div>
         <NavbarMenu
-          onClickOpenLoginModal={this.handleOnClickOpenLoginModal} 
-          onCloseLoginModal={this.handleOnCloseLoginModal}
           onClickLogout={this.handleOnClickLogout}
-          onClickGetAuthenticatedUser={this.props.getAuthenticatedUser}
-          openLoginModal={this.props.openLoginModal}
-          authenticatedUser={this.props.authenticatedUser}
-          fetched={this.props.fetched}
-          isFetching={this.props.isFetching}
-          fetchError={this.props.fetchError}
+          authenticatedUser={authenticatedUser}
+          categories={categories}
         />
       </nav> 
     );
@@ -103,15 +47,11 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   authenticatedUser: PropTypes.object.isRequired,
-  isFetching: PropTypes.bool.isRequired,
-  fetched: PropTypes.bool.isRequired,
-  fetchError: PropTypes.bool.isRequired,
-  openLoginModal: PropTypes.bool.isRequired,
-  openModal: PropTypes.func.isRequired,
-  closeModal: PropTypes.func.isRequired,
-  fechingLogin: PropTypes.bool.isRequired,
-  getAuthenticatedUser: PropTypes.func.isRequired,
+  categories: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ]).isRequired,
   logout: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(null, mapDispatchToProps)(Navbar);
