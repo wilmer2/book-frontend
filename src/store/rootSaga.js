@@ -6,7 +6,6 @@ import category from './category/saga';
 import page from './page/saga';
 import user from './user/saga';
 
-
 export default function* rootSaga() {
   yield all([
     login(),
