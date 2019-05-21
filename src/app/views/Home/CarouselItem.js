@@ -5,20 +5,22 @@ import BookItem from '@/app/components/ui/BookItem';
 
 class CarouselItem extends PureComponent {
   render() {
+    const { title, books } = this.props;
+
     return (
       <Fragment>
         <section className="hero">
           <div className="hero-body">
             <div className="container">
               <h1 className="title">
-                {this.props.title}
+                {title}
               </h1>
             </div>
           </div>
         </section>
         <Carousel>
-          {this.props.books.map(book => <BookItem 
-            key={`${book.id}-${this.props.title}`} 
+          {books.map(book => <BookItem 
+            key={`${book.id}-${title}`} 
             book={book}
             onClickBook={this.props.onClickOpenBookModal} 
           />)}
