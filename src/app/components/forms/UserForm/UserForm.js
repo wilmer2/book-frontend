@@ -1,58 +1,37 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import ImmutablePropTypes from 'react-immutable-proptypes';
 import  { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
 import merge from 'lodash/merge';
 import isEmpty from 'lodash/isEmpty';
 import { getCategoriesSelector } from '@/selectors/categoriesSelector';
-import { getCategoriesPending } from '@/store/Category';
-import MediumSpinner from '@/app/components/ui/MediumSpinner';
-import ButtonReload from '@/app/components/ui/ButtonReload';
-import ErrorGeneralMessage from '@/app/components/ui/ErrorGeneralMessage';
 import FormTitle from '@/app/components/forms/components/FormTitle';
 import FormButton from '@/app/components/forms/components/FormButton';
+import ErrorGeneralMessage from '@/app/components/ui/ErrorGeneralMessage';
+import SuccessMessage from '@/app/components/ui/SuccessMessage';
 import UserFields from './UserFields';
 
-const mapStateToProps = (state, ownProps) => {
-  const { user, userUI } = ownProps;
-  const categoryUI = state.ui.category;
+const mapStateToProps = (state) => {
   const categories = getCategoriesSelector(state);
 
   return {
     categories,
-    categoryUI,
-    user,
-    fetched: userUI.get('fetched'),
-    fetchError: userUI.get('fetchError'),
-    isFetching: userUI.get('isFetching'),
-    errorMessage: userUI.get('errorMessage'),
   };
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  getCategories() {
-    dispatch(getCategoriesPending());
-  },
-});
-
-const SuccessMessage = () => <div 
+const SuccessResponseMessage = props => <div
   className="column"
 >
-  <article className="message is-primary">
-    <div className="message-body">
-      Usuario ha sido registrado
-    </div>
-  </article>
+  <SuccessMessage message={props.successMessage} />
+</div>;
+
+const ErrorResponseMessage = props => <div
+  className="column"
+>
+  <ErrorGeneralMessage message={props.errorMessage} />
 </div>;
 
 class UserForm extends PureComponent {
-  componentDidMount() {
-    const { categoryUI } = this.props;
-
-    if (!categoryUI.get('fetched')) this.props.getCategories();
-  }
-
   handleOnSubmit = (inputData, actions) => {
     const categoriesIds = inputData.categoriesIds.map(categoryId => categoryId.value);
     const values = { ...inputData, categoriesIds };
@@ -62,17 +41,21 @@ class UserForm extends PureComponent {
 
   render() {
     const { 
-      categories, 
-      categoryUI, 
-      title,
       user, 
+      categories, 
+      title,
       fetched,
+      isFetching,
       fetchError,
-      errorMessage,
-      isFetching 
+      errorMessage, 
+      successMessage,
     } = this.props;
 
-    const categoriesIds = !isEmpty(user) ? user.preferences.map(category => category.id) : []; 
+    let categoriesIds = [];
+
+    if (!isEmpty(user)) {
+      categoriesIds = user.preferences.map(category => ({ value: category.id, label: category.name }));
+    }
 
     const initialValues = merge({ 
       email: '',
@@ -83,18 +66,15 @@ class UserForm extends PureComponent {
 
     return (
       <Fragment>
-        {categoryUI.get('isFetching') && <MediumSpinner />}
-        {categoryUI.get('fetchError') && <ButtonReload onClickFunc={this.props.getCategories} />}
-
-        {categoryUI.get('fetched') && <Formik 
+        {fetched && <SuccessResponseMessage successMessage={successMessage} />}
+        {fetchError && !isEmpty(errorMessage) && <ErrorResponseMessage
+          errorMessage={errorMessage}
+        />}
+        <Formik 
           initialValues={initialValues}
           onSubmit={this.handleOnSubmit}
         >
           <Form className="column">
-            {fetched && <SuccessMessage />}
-            {fetchError && !isEmpty(errorMessage) && <ErrorGeneralMessage 
-              errorMessage={errorMessage}
-            />}
             <FormTitle title={title} />
             <UserFields categories={categories} />
             <div className="column">
@@ -104,30 +84,25 @@ class UserForm extends PureComponent {
               />
             </div>
           </Form>
-        </Formik>}
-        
+        </Formik>
       </Fragment>
     );
   }
 }
 
 UserForm.propTypes = {
-  categoryUI: ImmutablePropTypes.mapContains({
-    fetched: PropTypes.bool.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    fetchError: PropTypes.bool.isRequired,
-  }),
   title: PropTypes.string.isRequired,
-  fetched: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,
+  fetched: PropTypes.bool.isRequired,
   fetchError: PropTypes.bool.isRequired,
-  errorMessage: PropTypes.string,
-  user: PropTypes.object,
   onSubmitUser: PropTypes.func.isRequired,
+  user: PropTypes.object,
+  successMessage: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
 };
 
 UserForm.defaultProps = {
   user: {},
 };
 
-export default  connect(mapStateToProps, mapDispatchToProps)(UserForm);
+export default  connect(mapStateToProps)(UserForm);
