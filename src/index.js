@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import ReduxToastr from 'react-redux-toastr';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import store from './store';
-import App from './App';
+import Layout from '@/app/layout';
 import { render } from 'react-dom';
+import './index.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 class AppContainer extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router>
-          <App />
-        </Router>
+        <BrowserRouter>
+          <Layout />
+        </BrowserRouter>
         <ReduxToastr
           timeOut={4000}
           newestOnTop={false}
