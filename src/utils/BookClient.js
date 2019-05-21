@@ -28,7 +28,7 @@ const get = (...args) => {
   return new Promise((resolve, reject) => {
     axiosClient.get(...args)
       .then(response => resolve(response))
-      .catch(err => reject(err));
+      .catch(reject);
   });
 }
 
@@ -36,13 +36,22 @@ const post = (...args) => {
   return new Promise((resolve, reject) => {
     axiosClient.post(...args)
       .then(response => resolve(response))
-      .catch(err => reject(err));
+      .catch(reject);
+  });
+}
+
+const put = (...args) => {
+  return new Promise((resolve, reject) => {
+    axiosClient.put(...args)
+      .then(response => resolve(response))
+      .catch(reject);
   });
 }
 
 const BookClient = {
   get,
   post,
+  put,
   passToken,
   removeToken,
 };
