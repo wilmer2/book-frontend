@@ -24,7 +24,7 @@ function* getBooksToHome({ categoriesIds, lastSearch }) {
       call(BookApi.getBooksToHome, merge({}, params, { categoriesIds }))
     ]);
 
-    if (!lastSearch) {
+    if (lastSearch) {
       const booksByLastSearch = yield call(BookApi.getBooksToHome, merge({}, params, { searchName: lastSearch }));
 
       yield put(putBooksByLastSearch(booksByLastSearch));
