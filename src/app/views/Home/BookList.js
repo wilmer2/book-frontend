@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import MediumSpinner from '@/app/components/ui/MediumSpinner';
 import ButtonReload from '@/app/components/ui/ButtonReload';
@@ -21,50 +20,34 @@ const CarouselByLastSearch = (props) => {
   );
 }
 
-const Carousels = (props) => {
-  return (
-    <Fragment>
-      <CarouselItem 
-        title="Más vistos" 
-        books={props.booksMoreSeen} 
-        onClickOpenBookModal={props.onClickOpenBookModal}
-      />
-      <CarouselItem 
-        title="Recomendaciones" 
-        books={props.booksByCategories} 
-        onClickOpenBookModal={props.onClickOpenBookModal}
-      />
-      <CarouselByLastSearch
-        lastSearch={props.lastSearch} 
-        books={props.booksByLastSearch}
-        onClickOpenBookModal={props.onClickOpenBookModal}
-      />
-      <BookModal />
-    </Fragment>
-  );
-}
-
+const Carousels = props => <div
+  className="container"
+>
+  <CarouselItem 
+    title="Más vistos" 
+    books={props.booksMoreSeen} 
+    onClickOpenBookModal={props.onClickOpenBookModal}
+  />
+  <CarouselItem 
+    title="Recomendaciones" 
+    books={props.booksByCategories} 
+    onClickOpenBookModal={props.onClickOpenBookModal}
+  />
+  <CarouselByLastSearch
+    lastSearch={props.lastSearch} 
+    books={props.booksByLastSearch}
+    onClickOpenBookModal={props.onClickOpenBookModal}
+  />
+  <BookModal />
+</div>;
+  
 class BookList extends PureComponent {
   componentDidMount() {
-    if (!this.props.fetched) this.handleGetBooks();
-  }
-
-  componentDidUpdate(prevProps) {
-    const { categoriesIds, lastSearch } = this.props;
-
-    if (
-        !isEqual(prevProps.categoriesIds, categoriesIds) ||
-        !isEqual(prevProps.lastSearch, lastSearch)
-      ) {
-      this.handleGetBooks();
-    }
-    
+    this.handleGetBooks();
   }
 
   handleGetBooks = () => {
-    const { categoriesIds, lastSearch } = this.props;
-
-    if (!categoriesIds) return this.props.getCategories();  
+    const { categoriesIds, lastSearch } = this.props;  
 
     this.props.getBooks({
       lastSearch,
@@ -77,21 +60,28 @@ class BookList extends PureComponent {
   }
 
   render() {
-    const { isFetching, fetchError, fetched } = this.props;
+    const { 
+      fetched,
+      isFetching, 
+      fetchError,
+      lastSearch,
+      booksMoreSeen,
+      booksByCategories,
+      booksByLastSearch 
+    } = this.props;
 
     return (
       <Fragment>
         {isFetching && !fetchError && <MediumSpinner />}
-
+        {fetchError && <ButtonReload onClickFunc={this.handleGetBooks} />}
         {fetched && <Carousels
-          lastSearch={this.props.lastSearch}
-          booksMoreSeen={this.props.booksMoreSeen}
-          booksByLastSearch={this.props.booksByLastSearch}
-          booksByCategories={this.props.booksByCategories}
+          lastSearch={lastSearch}
+          booksMoreSeen={booksMoreSeen}
+          booksByCategories={booksByCategories}
+          booksByLastSearch={booksByLastSearch}
           onClickOpenBookModal={this.handleOnClickOpenBookModal}
         />}
 
-        {fetchError && <ButtonReload onClickFunc={this.handleGetBooks} />}
       </Fragment>
     ); 
   }
