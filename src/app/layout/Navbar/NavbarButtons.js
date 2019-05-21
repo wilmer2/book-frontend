@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import showLoginModal from '@/app/components/wrappers/ShowLoginModalEnhancer';
 
 const NavbarButtons = props => <div 
   className="navbar-item"
@@ -20,4 +21,4 @@ NavbarButtons.propTypes = {
   onClickOpenLoginModal: PropTypes.func.isRequired,
 };
 
-export default NavbarButtons;
+export default showLoginModal(NavbarButtons);
