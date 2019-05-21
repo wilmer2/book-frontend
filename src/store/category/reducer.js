@@ -6,7 +6,7 @@ import { createResolver } from '@/store/utils';
 const categoryResolver = createResolver();
 
 const initialState = fromJS({
-  isFetching: true,
+  isFetching: false,
   fetched: false,
   fetchError: false,
   ids: [],
