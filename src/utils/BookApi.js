@@ -12,11 +12,11 @@ const login = (data) => {
   });
 }
 
-const getAuthenticatedUser = () => {
+const getAuthenticatedUser = (params) => {
   return new Promise((resolve, reject) => {
     const url = 'user/profile';
 
-    return BookClient.get(url)
+    return BookClient.get(url, { params })
       .then(response => resolve(response.data))
       .catch(reject);
   });
@@ -87,6 +87,16 @@ const storeUser = (data) => {
   });
 }
 
+const editUser = (data, id) => {
+  return new Promise((resolve, reject) => {
+    const url = `users/${id}`;
+
+    return BookClient.put(url, humps.decamelizeKeys(data))
+      .then(response => resolve(response.data))
+      .catch(reject);
+  });
+}
+
 const refreshToken = (data) => {
   return new Promise((resolve, reject) => {
     const url = 'clients/web/admin/refresh';
@@ -127,6 +137,7 @@ const BookApi = {
   getBookById,
   getCategories,
   storeUser,
+  editUser,
 };
 
 export default BookApi;
