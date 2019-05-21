@@ -1,16 +1,18 @@
-import React, { PureComponent  } from 'react';
-import ImmutablePropTypes from 'react-immutable-proptypes';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import  { connect } from 'react-redux';
-import { storeUserPending, storeUserReset } from '@/store/User';
+import { connect } from 'react-redux';
+import { storeUserPending, resetStoreUser } from '@/store/User';
 import onlyGuessUser from '@/app/components/wrappers/OnyGuessUserEnhancer';
 import UserForm from '@/app/components/forms/UserForm';
 
 const mapStateToProps = (state) => {
-  const userUI = state.ui.user.get('store');
+  const storeUI = state.ui.user.get('store');
 
   return {
-    userUI,
+    isFetching: storeUI.get('isFetching'),
+    fetched: storeUI.get('fetched'),
+    fetchError: storeUI.get('fetchError'),
+    errorMessage: storeUI.get('errorMessage'),
   };
 }
 
@@ -20,7 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
 
   resetStoreUser() {
-    dispatch(storeUserReset());
+    dispatch(resetStoreUser());
   },
 });
 
@@ -30,25 +32,32 @@ class View extends PureComponent {
   }
   
   render() {
+    const { 
+      isFetching, 
+      fetched, 
+      fetchError, 
+      errorMessage 
+    } = this.props;
+
     return (
-      <div className="columns is-centered">
-        <UserForm
-          title="Registrarse" 
-          userUI={this.props.userUI} 
-          onSubmitUser={this.props.storeUser}
-        />
-      </div>
+      <UserForm
+        title="Registrarse" 
+        successMessage="Usuario registrado"
+        fetched={fetched}
+        isFetching={isFetching} 
+        fetchError={fetchError}
+        errorMessage={errorMessage}
+        onSubmitUser={this.props.storeUser}
+      />
     );
   }
 }
 
 View.propTypes = {
-  userUI: ImmutablePropTypes.mapContains({
-    fetched: PropTypes.bool.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    fetchError: PropTypes.bool.isRequired,
-    errorMessage: PropTypes.string,
-  }),
+  fetched: PropTypes.bool.isRequired,
+  isFetching: PropTypes.bool.isRequired,
+  fetchError: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string,
   storeUser: PropTypes.func.isRequired,
   resetStoreUser: PropTypes.func.isRequired,
 };
