@@ -46,7 +46,7 @@ class View extends PureComponent {
     return (
       <UserForm
         title="Editar"
-        successMessage="Datos de usuario modificado"
+        successMessage="Usuario actualizado"
         fetched={fetched}
         isFetching={isFetching} 
         fetchError={fetchError}
