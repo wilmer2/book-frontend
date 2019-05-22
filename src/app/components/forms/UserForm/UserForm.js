@@ -2,13 +2,14 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import  { connect } from 'react-redux';
 import { Formik, Form } from 'formik';
+import { toastr } from 'react-redux-toastr';
 import merge from 'lodash/merge';
+import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
 import { getCategoriesSelector } from '@/selectors/categoriesSelector';
 import FormTitle from '@/app/components/forms/components/FormTitle';
 import FormButton from '@/app/components/forms/components/FormButton';
 import ErrorGeneralMessage from '@/app/components/ui/ErrorGeneralMessage';
-import SuccessMessage from '@/app/components/ui/SuccessMessage';
 import UserFields from './UserFields';
 
 const mapStateToProps = (state) => {
@@ -19,19 +20,14 @@ const mapStateToProps = (state) => {
   };
 }
 
-const SuccessResponseMessage = props => <div
-  className="column"
->
-  <SuccessMessage message={props.successMessage} />
-</div>;
-
-const ErrorResponseMessage = props => <div
-  className="column"
->
-  <ErrorGeneralMessage message={props.errorMessage} />
-</div>;
-
 class UserForm extends PureComponent {
+  componentDidUpdate(prevProps) {
+    const { fetched, successMessage } = this.props;
+
+    if (fetched && !isEqual(prevProps.fetched, fetched))
+      toastr.success(successMessage);
+  }
+
   handleOnSubmit = (inputData, actions) => {
     const categoriesIds = inputData.categoriesIds.map(categoryId => categoryId.value);
     const values = { ...inputData, categoriesIds };
@@ -44,11 +40,9 @@ class UserForm extends PureComponent {
       user, 
       categories, 
       title,
-      fetched,
       isFetching,
       fetchError,
-      errorMessage, 
-      successMessage,
+      errorMessage,
     } = this.props;
 
     let categoriesIds = [];
@@ -66,10 +60,9 @@ class UserForm extends PureComponent {
 
     return (
       <Fragment>
-        {fetched && <SuccessResponseMessage successMessage={successMessage} />}
-        {fetchError && !isEmpty(errorMessage) && <ErrorResponseMessage
-          errorMessage={errorMessage}
-        />}
+        {fetchError && !isEmpty(errorMessage) && <div className="column">
+          <ErrorGeneralMessage errorMessage={errorMessage}/>
+        </div>}
         <Formik 
           initialValues={initialValues}
           onSubmit={this.handleOnSubmit}
