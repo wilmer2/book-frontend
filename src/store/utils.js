@@ -76,6 +76,16 @@ const resetResolver = (state, keyMerge) => {
   return resolverByKeyMerge(state, resolverObj, keyMerge);
 }
 
+const successResolverPlain = (state, keyMerge) => {
+  const resolverObj = {
+    fetched: true,
+    fetchError: false,
+    isFetching: false,
+  };
+
+  return resolverByKeyMerge(state, resolverObj, keyMerge);
+}
+
 const successResolverId = (state, { id }, keyMerge) => {
   const resolverObj = {
     fetched: true,
@@ -87,48 +97,20 @@ const successResolverId = (state, { id }, keyMerge) => {
   return resolverByKeyMerge(state, resolverObj, keyMerge);
 }
 
-const successResolverPlain = (state, keyMerge) => {
-  const resolverObj = {
-    fetched: true,
-    fetchError: false,
-    isFetching: false,
-  };
-
-  return resolverByKeyMerge(state, resolverObj, keyMerge);
-}
-
 const successResolver = (
   state, 
   payload, 
   keyMerge, 
   infinityPagination
 ) => {
-  if (payload) {
-    if (has(payload, 'id')) return successResolverId(state , payload, keyMerge);
-    if (has(payload, 'pagination')) return successResolverPagination(
-      state, 
-      payload, 
-      infinityPagination
-    );
-  }
+    if (payload && has(payload, 'pagination')) {
+      return successResolverPagination(state, payload, infinityPagination);
+    } 
 
   return successResolverPlain(state, keyMerge);
 }
 
-
-const pedingResolverId = (state, keyMerge) => {
-  const resolverObj = {
-    fetched: false,
-    fetchError: false,
-    isFetching: true,
-    id: null,
-    errorMessage: '',
-  };
-
-  return resolverByKeyMerge(state, resolverObj, keyMerge);
-}
-
-const pedingResolverPlain = (state, keyMerge) => {
+const pendingResolver = (state, keyMerge) => {
   const resolverObj = {
     fetched: false,
     fetchError: false,
@@ -137,11 +119,6 @@ const pedingResolverPlain = (state, keyMerge) => {
   };
 
   return resolverByKeyMerge(state, resolverObj, keyMerge);
-}
-
-const pendingResolver = (state, payload, keyMerge) => {
-  return payload && has(payload, 'id') ? pedingResolverId(state, keyMerge) :
-    pedingResolverPlain(state, keyMerge);
 }
 
 const errorResolverMessage = (state, { errors }, keyMerge) => {
@@ -164,8 +141,11 @@ const errorResolverPlain = (state, keyMerge) => {
 }
 
 const errorResolver = (state, payload, keyMerge) => {
-  return payload && has(payload, 'errors') ? errorResolverMessage(state, payload, keyMerge) :
-    errorResolverPlain(state, keyMerge);
+  if (payload && has(payload, 'errors')) {
+    return errorResolverMessage(state, payload, keyMerge);
+  }
+  
+  return errorResolverPlain(state, keyMerge);
 }
 
 
@@ -175,8 +155,12 @@ export const createResolver = (keyMerge) => {
       return successResolver(state, payload, keyMerge, infinityPagination);
     },
 
+    successById(state, payload) {
+      return successResolverId(state, payload, keyMerge);
+    },
+
     pending(state, payload) {
-      return pendingResolver(state, payload, keyMerge);
+      return pendingResolver(state, keyMerge);
     },
 
     error(state, payload) {

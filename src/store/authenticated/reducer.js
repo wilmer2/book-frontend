@@ -14,7 +14,7 @@ const initialState = fromJS({
 
 const reducer = typeToReducer({
   [GET_AUTHENTICATED_USER_ASYNC.SUCCESS]: (state, { payload }) => 
-    authenticatedResolver.success(state, payload), 
+    authenticatedResolver.successById(state, payload), 
   [GET_AUTHENTICATED_USER_ASYNC.PENDING]: state => authenticatedResolver.pending(state),
   [GET_AUTHENTICATED_USER_ASYNC.ERROR]: state => authenticatedResolver.error(state),
 }, initialState);

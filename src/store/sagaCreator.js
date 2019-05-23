@@ -47,8 +47,8 @@ export const createSearchEntityByIdSaga = (
         const entity = yield call(apiFunc, payload);
         yield put(successAction(entity));
       } else {
-        yield put(successAction({ id: payload.id }));
-      }
+        yield put(successAction({ id: payload.id}));
+      } 
       
     } catch(error) {
       const errors = parseError(error);

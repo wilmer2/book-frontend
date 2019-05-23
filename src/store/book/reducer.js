@@ -21,14 +21,12 @@ const initialState = fromJS({
     fetched: false,
     fetchError: false,
   },
-
   byId: {
     isFetching: false,
     fetched: false,
     fetchError: false,
     id: null,
   },
-
   homeData: {
     isFetching: true,
     fetched: false,
@@ -43,7 +41,8 @@ const initialState = fromJS({
 });
 
 const reducer = typeToReducer({
-  [GET_BOOK_BY_ID_ASYNC.SUCCESS]: (state, { payload }) => byIdResolver.success(state, payload),
+  [GET_BOOK_BY_ID_ASYNC.SUCCESS]: (state, { payload }) => 
+    byIdResolver.successById(state, payload),
   [GET_BOOK_BY_ID_ASYNC.PENDING]: state => byIdResolver.pending(state),
   [GET_BOOK_BY_ID_ASYNC.ERROR]: (state, { payload }) => byIdResolver.error(state, payload),
   [GET_BOOKS_TO_HOME_ASYNC.SUCCESS]: state => homeDataResolver.success(state),

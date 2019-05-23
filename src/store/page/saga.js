@@ -6,7 +6,7 @@ import {
   getPagesSuccess, 
   getPagesError, 
   getPageByIdSuccess, 
-  getPageByIdError 
+  getPageByIdError
 } from '@/store/Page';
 
 const ENTITY_NAME = 'pages';
