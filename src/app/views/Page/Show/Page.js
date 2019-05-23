@@ -11,13 +11,11 @@ import bookImage from '@/images/bookImage.jpeg';
 
 const getPageId = state => state.ui.page.getIn(['byId', 'id']);
 
-const mapStateToProps = (state, ownProps) => {
-  const { pageId } = ownProps;
+const mapStateToProps = (state) => {
   const pageUI = state.ui.page.get('byId');
   const page = findPageSelector(state, getPageId);
 
   return {
-    pageId,
     page,
     fetched: pageUI.get('fetched'),
     isFetching: pageUI.get('isFetching'),
