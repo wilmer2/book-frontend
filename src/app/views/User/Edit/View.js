@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editUserPending, resetEditUser } from '@/store/User';
+import { editUserPending } from '@/store/User';
 import { getAuthenticatedUserSelector } from '@/selectors/usersSelector';
 import onlyAuthenticatedUser from '@/app/components/wrappers/OnlyAuthenticatedUserEnhancer';
 import UserForm from '@/app/components/forms/UserForm';
@@ -23,17 +23,9 @@ const mapDispatchToProps = (dispatch) => ({
   editUser(userData) {
     dispatch(editUserPending(userData));
   },
-
-  resetEditUser() {
-    dispatch(resetEditUser());
-  },
 });
 
-class View extends PureComponent {
-  componentWillUnmount() {
-    this.props.resetEditUser();
-  }
-  
+class View extends PureComponent { 
   render() {
     const { 
       isFetching, 
@@ -65,7 +57,6 @@ View.propTypes = {
   errorMessage: PropTypes.string,
   authenticatedUser: PropTypes.object.isRequired,
   editUser: PropTypes.func.isRequired,
-  resetEditUser: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(onlyAuthenticatedUser(View));
