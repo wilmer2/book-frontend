@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { getPagesPending, resetPagination } from '@/store/Page';
-import { getBookByIdPending } from '@/store/Book';
+import { getPagesPending, resetPagePagination } from '@/store/Page';
+import { getBookByIdPending, resetBookId } from '@/store/Book';
 import { getPagesSelector } from '@/selectors/pagesSelector';
 import { findBookSelector } from '@/selectors/booksSelector';
 
@@ -38,8 +38,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getBookByIdPending(params));
   },
 
-  resetPagination() {
-    dispatch(resetPagination());
+  resetBookId() {
+    dispatch(resetBookId());
+  },
+
+  resetPagePagination() {
+    dispatch(resetPagePagination());
   },
 }); 
 

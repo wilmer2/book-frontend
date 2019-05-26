@@ -56,11 +56,21 @@ const StoryView = (props) => {
 
 class Story extends PureComponent {
   componentDidMount() {
+    const page = 1;
+
     this.handleGetBook();
+    this.handleLoadMore(page);
   }
 
   componentWillUnmount() {
-    this.props.resetPagination();
+    this.props.resetBookId();
+    this.props.resetPagePagination();
+  }
+  
+  handleGetBook = () => {
+    const { bookId } = this.props;
+
+    this.props.getBook({ id: bookId });
   }
 
   handleLoadMore = (page) => {
@@ -69,11 +79,6 @@ class Story extends PureComponent {
     this.props.getPages({ page, bookId });
   }
 
-  handleGetBook = () => {
-    const { bookId } = this.props;
-
-    this.props.getBook({ id: bookId });
-  }
 
   render() {
     const { 
@@ -121,7 +126,8 @@ Story.propTypes = {
     errorMessage: PropTypes.string,
   }),
   getPages: PropTypes.func.isRequired,
-  resetPagination: PropTypes.func.isRequired,
+  resetBookId: PropTypes.func.isRequired,
+  resetPagePagination: PropTypes.func.isRequired,
 };
 
 export default Story;

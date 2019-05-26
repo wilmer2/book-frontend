@@ -39,10 +39,6 @@ const ButtonError = props => <a
 </a>;
 
 class SideBar extends PureComponent {
-  componentDidMount() {
-    this.props.onLoadMore(this.props.currentPage);
-  }
-
   componentDidUpdate(prevProps) {
     const { fetchError, errorMessage } = this.props;
 
