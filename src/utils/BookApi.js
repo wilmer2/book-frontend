@@ -77,6 +77,16 @@ const getBookById = (requestParams) => {
   });
 }
 
+const getBooks = (params) => {
+  return new Promise((resolve, reject) => {
+    const url = 'books';
+
+    return BookClient.get(url, { params })
+      .then(response => resolve(response.data))
+      .catch(reject);
+  });
+}
+
 const storeUser = (data) => {
   return new Promise((resolve, reject) => {
     const url = 'register';
@@ -135,6 +145,7 @@ const BookApi = {
   getAuthenticatedUser,
   getBooksToHome,
   getBookById,
+  getBooks,
   getCategories,
   storeUser,
   editUser,
