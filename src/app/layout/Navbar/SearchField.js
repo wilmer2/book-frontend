@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -12,16 +13,36 @@ const Wrapper = styled.div`
   }
 `;
 
-const SearchField = props => <Wrapper
-  className="field"
->
-  <div className="control">
-    <input 
-      className="input is-primary" 
-      type="text" 
-      placeholder="Buscar historias y personas" 
-    />
-  </div>
-</Wrapper>
+class SearchField extends Component {
+  handleOnSubmit = (e) => {
+    e.preventDefault();
 
-export default SearchField;
+    const search = this.refs.searchInput.value;
+
+    if (!search) return;
+
+    this.props.history.push({
+      pathname: '/results',
+      search: `?search=${search}`,
+    });
+  }
+
+  render() {
+    return (
+      <Wrapper className="field">
+        <div className="control">
+          <form onSubmit={this.handleOnSubmit}>
+            <input
+              ref="searchInput" 
+              className="input is-primary" 
+              type="text" 
+              placeholder="Buscar historias y personas" 
+            />
+          </form>
+        </div>
+      </Wrapper>
+    );
+  }
+}
+
+export default withRouter(SearchField);
