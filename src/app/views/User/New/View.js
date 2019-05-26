@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { storeUserPending, resetStoreUser } from '@/store/User';
+import { storeUserPending } from '@/store/User';
 import onlyGuessUser from '@/app/components/wrappers/OnyGuessUserEnhancer';
 import UserForm from '@/app/components/forms/UserForm';
 
@@ -20,17 +20,9 @@ const mapDispatchToProps = (dispatch) => ({
   storeUser(userData) {
     dispatch(storeUserPending(userData));
   },
-
-  resetStoreUser() {
-    dispatch(resetStoreUser());
-  },
 });
 
 class View extends PureComponent {
-  componentWillUnmount() {
-    this.props.resetStoreUser();
-  }
-  
   render() {
     const { 
       isFetching, 
@@ -59,7 +51,6 @@ View.propTypes = {
   fetchError: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
   storeUser: PropTypes.func.isRequired,
-  resetStoreUser: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(onlyGuessUser(View));
