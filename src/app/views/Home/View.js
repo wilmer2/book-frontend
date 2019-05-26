@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
-import BookList from './BookList';
+import BookCarousel from './BookCarousel';
 import { getBooksSelector } from '@/selectors/booksSelector';
 import { getCategoriesSelector } from '@/selectors/categoriesSelector';
 import { getAuthenticatedUserSelector }  from '@/selectors/usersSelector';
@@ -59,4 +59,4 @@ const mapDispatchToProps = dispatch => ({
  
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookList);
+export default connect(mapStateToProps, mapDispatchToProps)(BookCarousel);
