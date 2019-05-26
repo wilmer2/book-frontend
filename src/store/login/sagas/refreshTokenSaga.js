@@ -12,8 +12,8 @@ function* sendRefreshToken(payload) {
     const { accessToken, refreshToken } = token;
 
     yield call(BookApi.storeToken, accessToken, refreshToken);
-    yield put(getAuthenticatedUserPending());
     yield put(refreshTokenEnd());
+    yield put(getAuthenticatedUserPending());
 
   } catch (error) {
     yield call(BookApi.clearToken);
