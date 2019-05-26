@@ -27,24 +27,24 @@ const resolverByKeyMerge = (state, resolverObj, keyMerge) => {
   });
 }
 
-const successResolverPagination = (
-  state, 
+const successResolverInfinity = (
+  state,
   { 
-    ids, 
-    pagination: {
+    ids,
+    pagination: { 
+      totalPages, 
       currentPage,
-      totalPages
-    }, 
-  },
-  infinityPagination 
+      total 
+    } 
+  }
 ) => state.withMutations((mutator) => {
-
-  if (infinityPagination) {
+  if (currentPage > 1) {
     mutator.updateIn(['pagination', 'ids'], (entityIds) => {
       const oldIds = isArray(entityIds) ? entityIds : entityIds.toArray();
 
       return oldIds.concat(ids);
     });
+
   } else {
     mutator.setIn(['pagination', 'ids'], ids);
   }
@@ -52,25 +52,47 @@ const successResolverPagination = (
   mutator.set('fetched', true);
   mutator.set('isFetching', false);
   mutator.set('fetchError', false);
+  mutator.setIn(['pagination', 'total'], total);
   mutator.setIn(['pagination', 'totalPages'], totalPages);
   mutator.setIn(['pagination', 'currentPage'], currentPage);
 });
 
-export const resetPagination = state => state.withMutations((mutator) => {
-  mutator.set('fetched', false);
+const successResolverPagination = (
+  state,
+  {
+    ids,
+    pagination: {
+      totalPages,
+      currentPage,
+      total
+    }
+  }
+) => state.withMutations((mutator)  => {
+  mutator.set('fetched', true);
   mutator.set('isFetching', false);
   mutator.set('fetchError', false);
-  mutator.setIn(['pagination' ,'ids'], []);
+  mutator.setIn(['pagination', 'ids'], ids);
+  mutator.setIn(['pagination', 'total'], total);
+  mutator.setIn(['pagination', 'totalPages'], totalPages);
+  mutator.setIn(['pagination', 'currentPage'], currentPage);
+});
+
+const resetPaginationResolver = state => state.withMutations((mutator) => {
+  mutator.set('fetched', false);
+  mutator.set('isFetching', true);
+  mutator.set('fetchError', false);
+  mutator.setIn(['pagination', 'ids'], []);
+  mutator.setIn(['pagination', 'total'], 0);
   mutator.setIn(['pagination', 'totalPages'], 1);
   mutator.setIn(['pagination', 'currentPage'], 1);
 });
 
-const resetResolver = (state, keyMerge) => {
+const resetResolverId = (state, keyMerge) => {
   const resolverObj = {
     fetched: false,
     fetchError: false,
-    isFetching: false,
-    errorMessage: '',
+    isFetching: true,
+    id: null,
   };
 
   return resolverByKeyMerge(state, resolverObj, keyMerge);
@@ -95,19 +117,6 @@ const successResolverId = (state, { id }, keyMerge) => {
   };
 
   return resolverByKeyMerge(state, resolverObj, keyMerge);
-}
-
-const successResolver = (
-  state, 
-  payload, 
-  keyMerge, 
-  infinityPagination
-) => {
-    if (payload && has(payload, 'pagination')) {
-      return successResolverPagination(state, payload, infinityPagination);
-    } 
-
-  return successResolverPlain(state, keyMerge);
 }
 
 const pendingResolver = (state, keyMerge) => {
@@ -151,12 +160,20 @@ const errorResolver = (state, payload, keyMerge) => {
 
 export const createResolver = (keyMerge) => {
   const resolver = {
-    success(state, payload, infinityPagination) {
-      return successResolver(state, payload, keyMerge, infinityPagination);
+    success(state) {
+      return successResolverPlain(state, keyMerge);
     },
 
     successById(state, payload) {
       return successResolverId(state, payload, keyMerge);
+    },
+
+    successPagination(state, payload) {
+      return successResolverPagination(state, payload);
+    },
+
+    successInfinity(state, payload) {
+      return successResolverInfinity(state, payload);
     },
 
     pending(state, payload) {
@@ -167,8 +184,12 @@ export const createResolver = (keyMerge) => {
       return errorResolver(state, payload, keyMerge);
     },
 
-    reset(state, payload) {
-      return resetResolver(state, keyMerge);
+    resetById(state) {
+      return resetResolverId(state, keyMerge);
+    },
+
+    resetPagination(state) {
+      return resetPaginationResolver(state);
     },
   };
 
