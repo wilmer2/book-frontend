@@ -32,7 +32,7 @@ const StoryView = (props) => {
 
   return (
     <div className="columns">
-      <div className="column is-one-fifth">
+      <div className="column">
         <SideBar 
           book={props.book}
           pages={props.pages}
@@ -45,10 +45,8 @@ const StoryView = (props) => {
           totalPages={totalPages}
         />
       </div>
-      <div className="container">
-        <div className="column">
-          <PageItem pageId={props.pageId} />
-        </div>
+      <div className="column is-four-fifths">
+        <PageItem pageId={props.pageId} />
       </div>
     </div>
   );

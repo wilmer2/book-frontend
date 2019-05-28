@@ -2,12 +2,11 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
 import  { connect } from 'react-redux';
-import Img from 'react-image';
 import { getPageByIdPending } from '@/store/Page';
 import { findPageSelector } from '@/selectors/pagesSelector';
 import ErrorGeneralMessage from '@/app/components/ui/ErrorGeneralMessage';
 import MediumSpinner from '@/app/components/ui/MediumSpinner';
-import bookImage from '@/images/bookImage.jpeg';
+import bookCardImage from '@/images/bookCardImage.jpeg';
 
 const getPageId = state => state.ui.page.getIn(['byId', 'id']);
 
@@ -34,35 +33,39 @@ const Show = (props) => {
   const { page } = props;
 
   return (
-    <div className="box">
-      <h1 className="title">
-        {page.title}
-      </h1>
-      <div className="columns">
-        {page.imageUrl && <div 
-          className="column"
-        >
-          <figure className="image is-128x128">
-            <Img 
-              className="is-rounded"
-              alt={page.title}
-              src={[
-                page.imageUrl,
-                bookImage,
-              ]}
-            />
+   <div className="card">
+  <header className="card-header">
+    <p className="card-header-title">
+      {page.title}
+    </p>
+  </header>
+  <div className="card-content">
+    <div className="columns is-centered">
+      <div className="media">
+        <div className="media-content">
+          <figure className="image is-64x64">
+            <img src={bookCardImage} alt={page.title}/>
           </figure>
-        </div>}
-        <div className="column">
-          <p>
-            {page.text}
-          </p>
         </div>
       </div>
     </div>
+    <div className="content">
+      {page.text}
+    </div>
+  </div>
+   <footer className="card-footer">
+    {/* eslint-disable-next-line */}
+    <a href="#" className="card-footer-item">
+       <i className="fas fa-thumbs-up fa-fw"></i>
+      {page.likeCount}
+    </a>
+  </footer>
+</div>
   );
 
 }
+
+
 
 class Page extends PureComponent {
   componentDidMount() {

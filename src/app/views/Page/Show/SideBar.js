@@ -7,36 +7,50 @@ import { Link } from 'react-router-dom';
 const SideBarItems = (props) => {
   const { pages, book, fetched } = props;
 
-  if (!pages.length && fetched) return <li>No se han escrito páginas</li>;
+  /* eslint-disable-next-line */
+  if (!pages.length && fetched) return <a>No se han escrito páginas</a>;
   
-  return pages.map(page => <li 
-    key={page.id}>
-      <Link     
-        className="navbar-item"
-        to={`/book/${book.id}/story/${page.id}`} 
-      >
-        {page.title}
-      </Link>
-    </li>
+  return pages.map(page => <Link
+      key={page.id}     
+      className="panel-block"
+      to={`/book/${book.id}/story/${page.id}`} 
+    >
+      <span className="panel-icon">
+        <i className="fas fa-book" aria-hidden="true"></i>
+      </span>
+      {page.title}
+    </Link>
   );
 }
 
 
-/* eslint-disable-next-line */
-const ButtonLoadMore = props => <a 
-  onClick={props.onClickLoadMore} 
-  disabled={props.isFetching}
+const ButtonLoadMore = props => <div
+  className="panel-block"
 >
-  Mostrar más
-</a>;
+  {/* eslint-disable-next-line */} 
+  <a
+    className="button is-link is-outlined is-fullwidth" 
+    onClick={props.onClickLoadMore} 
+    disabled={props.isFetching}
+  >
+    Mostrar más
+  </a>
+</div>;
+
 
 /* eslint-disable-next-line */
-const ButtonError = props => <a
-  onClick={props.onClickLoadMore}
-  disabled={props.isFetching}
->
-  Volver a cargar
-</a>;
+const ButtonError = props =><div 
+  className="panel-block"
+> 
+  {/* eslint-disable-next-line */}
+  <a 
+    className="button is-link is-outlined is-fullwidth"
+    onClick={props.onClickLoadMore}
+    disabled={props.isFetching}
+  >
+    Volver a cargar
+  </a>
+</div>;
 
 class SideBar extends PureComponent {
   componentDidUpdate(prevProps) {
@@ -65,39 +79,32 @@ class SideBar extends PureComponent {
     const { pages, book, isFetching, fetchError, fetched } = this.props;
 
     return (
-      <aside className="menu">
-        <p className="menu-label">
-          Libro
+      <nav className="panel">
+        <p className="panel-heading">
+          <Link to={`/book/${book.id}`}>
+            {book.name}
+          </Link>
         </p>
-        <ul className="menu-list">
-          <li>
-            <Link to={`/book/${book.id}`}>
-              {book.name}
-            </Link>
-          </li>
-        </ul>
-        <p className="menu-label">
-          Páginas
-        </p>
-        <ul className="menu-list">
-          <SideBarItems 
-            pages={pages}
-            book={book}
-            fetched={fetched}
-          />
-        </ul>
-        <p className="menu-label">
-          {isFetching && <i className="fas fa-spinner fa-spin"></i>}
-          {fetchError && <ButtonError 
+        <SideBarItems
+          pages={pages}
+          book={book}
+          fetched={fetched}
+        />
+        {isFetching && <div 
+            className="panel-block"
+          > 
+            <i className="fas fa-spinner fa-spin"></i>
+        </div>}
+        {fetchError && <ButtonError 
             onClickLoadMore={this.handleOnClickLoadMore}
             isFetching={isFetching} 
-          />}
-          {this.shouldRenderLoadMore() && <ButtonLoadMore 
+        />}
+        {this.shouldRenderLoadMore() && <ButtonLoadMore 
             onClickLoadMore={this.handleOnClickLoadMore}
             isFetching={isFetching}
-          />}
-        </p>
-      </aside>
+        />}
+       
+      </nav>
     );
   }
 }
