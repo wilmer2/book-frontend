@@ -41,7 +41,7 @@ const BookPagination = (props) => {
     <Fragment>
       <div className="columns">
         <div className="column is-full">
-          <nav class="pagination" role="navigation" aria-label="pagination">
+          <nav className="pagination" role="navigation" aria-label="pagination">
             <Pagination 
               activePage={currentPage}
               totalItemsCount={total}
@@ -56,10 +56,10 @@ const BookPagination = (props) => {
       </div>
       <div className="columns  is-multiline">
         {books.map(book => <div 
+          key={book.id}
           className="column is-3"
         > 
           <BookCard 
-            key={book.id}
             book={book} 
             onClickBook={props.onClickBook} 
           />
@@ -67,7 +67,7 @@ const BookPagination = (props) => {
       </div>
       <div className="columns">
         <div className="column is-full">
-          <nav class="pagination" role="navigation" aria-label="pagination">
+          <nav className="pagination" role="navigation" aria-label="pagination">
             <Pagination 
               activePage={currentPage}
               totalItemsCount={total}
