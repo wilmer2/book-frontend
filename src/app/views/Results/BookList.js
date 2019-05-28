@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { getBooksSelector } from '@/selectors/booksSelector';
 import { getBooksPending } from '@/store/Book';

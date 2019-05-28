@@ -67,16 +67,18 @@ class UserForm extends PureComponent {
           initialValues={initialValues}
           onSubmit={this.handleOnSubmit}
         >
-          <Form className="column">
-            <FormTitle title={title} />
-            <UserFields categories={categories} />
-            <div className="column">
-              <FormButton 
-                text="Guardar" 
-                isFetching={isFetching}
-              />
-            </div>
-          </Form>
+          <div className="columns is-centered">
+            <Form className="column is-5">
+              <FormTitle title={title} />
+              <UserFields categories={categories} />
+              <div className="column">
+                <FormButton 
+                  text="Guardar" 
+                  isFetching={isFetching}
+                />
+              </div>
+            </Form>
+          </div>
         </Formik>
       </Fragment>
     );
