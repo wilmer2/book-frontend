@@ -26,7 +26,7 @@ class NavbarMenu extends PureComponent {
     const { authenticatedUser, categories } = this.props;
 
     return (
-      <div className="navbar-menu is-active">
+      <div className="navbar-menu">
         <div className="navbar-start">
           <CategoryDropDown categories={categories} />
         </div>

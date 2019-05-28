@@ -20,8 +20,7 @@ const CarouselByLastSearch = (props) => {
   );
 }
 
-const Carousels = props => <div
-  className="container"
+const Carousels = props => <Fragment
 >
   <CarouselItem 
     title="Más vistos" 
@@ -39,7 +38,7 @@ const Carousels = props => <div
     onClickOpenBookModal={props.onClickOpenBookModal}
   />
   <BookModal />
-</div>;
+</Fragment>;
   
 class BookCarousel extends PureComponent {
   componentDidMount() {

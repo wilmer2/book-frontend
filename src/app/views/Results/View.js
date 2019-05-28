@@ -7,9 +7,11 @@ class View extends Component {
     const { location: { search }, history } = this.props;
 
     return (
-      <div className="columns">
-        <div className="column">
-          <BookList search={search} history={history} />
+      <div className="container">
+        <div className="columns">
+          <div className="column">
+            <BookList search={search} history={history} />
+          </div>
         </div>
       </div>
     );

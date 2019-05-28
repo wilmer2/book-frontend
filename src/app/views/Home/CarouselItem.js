@@ -9,15 +9,7 @@ class CarouselItem extends PureComponent {
 
     return (
       <Fragment>
-        <section className="hero">
-          <div className="hero-body">
-            <div className="container">
-              <h1 className="title">
-                {title}
-              </h1>
-            </div>
-          </div>
-        </section>
+        <h1 className="title">{title}</h1>
         <Carousel>
           {books.map(book => <BookItem 
             key={`${book.id}-${title}`} 

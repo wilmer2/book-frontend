@@ -1,15 +1,15 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { getBooksSelector } from '@/selectors/booksSelector';
 import { getBooksPending } from '@/store/Book';
 import queryString from 'query-string';
 import Pagination from 'react-js-pagination';
-import BookItem from '@/app/components/ui/BookItem';
+import BookCard from './BookCard';
 import MediumSpinner from '@/app/components/ui/MediumSpinner';
 import ButtonReload from '@/app/components/ui/ButtonReload';
 import EmptyMessage from '@/app/components/ui/EmptyMessage';
-
 
 const getBookIds = state => state.ui.book.getIn(['pagination', 'ids']);
 
@@ -38,21 +38,49 @@ const BookPagination = (props) => {
 
   if (total === 0) return <EmptyMessage />;
 
-  return (<Fragment>
-    <div className="column">
-      {books.map(book => <BookItem 
-        key={book.id}
-        book={book} 
-        onClickBook={props.onClickBook} 
-      />)}
-    </div>
-    <div className="column">
-      <Pagination 
-        activePage={currentPage}
-        totalItemsCount={total}
-        onChange={props.onChangePage}
-      />
-    </div>
+  return (
+    <Fragment>
+      <div className="columns">
+        <div className="column is-full">
+          <nav class="pagination" role="navigation" aria-label="pagination">
+            <Pagination 
+              activePage={currentPage}
+              totalItemsCount={total}
+              onChange={props.onChangePage}
+              innerClass="pagination-list"
+              activeLinkClass="is-current"
+              linkClass="pagination-link"
+              hideNavigation={true}
+            />
+          </nav>
+        </div>
+      </div>
+      <div className="columns  is-multiline">
+        {books.map(book => <div 
+          className="column is-3"
+        > 
+          <BookCard 
+            key={book.id}
+            book={book} 
+            onClickBook={props.onClickBook} 
+          />
+        </div>)}    
+      </div>
+      <div className="columns">
+        <div className="column is-full">
+          <nav class="pagination" role="navigation" aria-label="pagination">
+            <Pagination 
+              activePage={currentPage}
+              totalItemsCount={total}
+              onChange={props.onChangePage}
+              innerClass="pagination-list"
+              activeLinkClass="is-current"
+              linkClass="pagination-link"
+              hideNavigation={true}
+            />
+          </nav>
+        </div>
+      </div>
   </Fragment>);
 }
 
