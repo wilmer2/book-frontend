@@ -1,6 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import bookCardImage from '@/images/bookCardImage.jpeg';
+
+const IconContainer = styled.span`
+  margin-left: 8px;
+`;
 
 class BookCard extends PureComponent {
   handleOnClick = () => {
@@ -35,14 +40,18 @@ class BookCard extends PureComponent {
           <div className="content">
             {book.description}
             <br />
+            <br />
+
             <b>
               <i className="fas fa-eye fa-fw"></i>
               {book.views}
             </b>
-            <b> 
-              <i className="fas fa-thumbs-up fa-fw"></i>
-              {book.likeCount}
-            </b>
+            <IconContainer>
+              <b> 
+                <i className="fas fa-thumbs-up fa-fw"></i>
+                {book.likeCount}
+              </b>
+            </IconContainer>
           </div>
         </div>
       </div>
