@@ -3,12 +3,18 @@ import PropTypes from 'prop-types';
 import bookCardImage from '@/images/bookCardImage.jpeg';
 
 class BookCard extends PureComponent {
+  handleOnClick = () => {
+    const { book } = this.props;
+
+    this.props.onClickBook(book.id);
+  }
+
   render() {
     const { book } = this.props;
     const { user } = book;
 
     return (
-      <div className="card" onClick={this.props.onClickBook}>
+      <div className="card" onClick={this.handleOnClick}>
         <div className="card-image">
           <figure className="image is-4by3">
             <img 
