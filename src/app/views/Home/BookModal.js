@@ -31,15 +31,15 @@ const BookModalItem = props => <Modal
   onCloseModal={props.closeBookModal}
   open={props.openModal}
 >
+  <br />
   <BookItem 
     book={props.book} 
     onClickBook={props.onClickBook}
   />
-  <div className="column">
-    <Link to={`/book/${props.book.id}/story`} className="button is-primary">
-      Leer
-    </Link>
-  </div>
+  <br />
+  <Link to={`/book/${props.book.id}/story`} className="button is-primary">
+    Empezar a leer
+  </Link>
 </Modal>;
 
 class BookModal extends PureComponent {
