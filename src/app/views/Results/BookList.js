@@ -54,7 +54,7 @@ const BookPagination = (props) => {
           </nav>
         </div>
       </div>
-      <div className="columns  is-multiline">
+      <div className="columns is-multiline">
         {books.map(book => <div 
           key={book.id}
           className="column is-3"
