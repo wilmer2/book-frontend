@@ -40,9 +40,9 @@ const post = (...args) => {
   });
 }
 
-const put = (...args) => {
+const patch = (...args) => {
   return new Promise((resolve, reject) => {
-    axiosClient.put(...args)
+    axiosClient.patch(...args)
       .then(response => resolve(response))
       .catch(reject);
   });
@@ -51,7 +51,7 @@ const put = (...args) => {
 const BookClient = {
   get,
   post,
-  put,
+  patch,
   passToken,
   removeToken,
 };

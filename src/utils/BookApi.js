@@ -101,7 +101,7 @@ const editUser = (data, id) => {
   return new Promise((resolve, reject) => {
     const url = `users/${id}`;
 
-    return BookClient.put(url, humps.decamelizeKeys(data))
+    return BookClient.patch(url, humps.decamelizeKeys(data))
       .then(response => resolve(response.data))
       .catch(reject);
   });
