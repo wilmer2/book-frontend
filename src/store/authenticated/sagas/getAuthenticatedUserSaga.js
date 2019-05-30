@@ -8,9 +8,7 @@ import {
 
 function* getAuthenticatedUser() {
   try {
-    const params = { include: 'preferences' };
-
-    const authenticatedUser = yield call(BookApi.getAuthenticatedUser, params);
+    const authenticatedUser = yield call(BookApi.getAuthenticatedUser);
     yield put(getAuthenticatedUserSuccess(authenticatedUser));
   } catch(error) {
     yield put(getAuthenticatedUserError());
