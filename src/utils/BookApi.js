@@ -117,12 +117,25 @@ const refreshToken = (data) => {
   });
 }
 
+const socialAuth = (data) => {
+  return new Promise((resolve, reject) => {
+    const url = 'auth/facebook';
+
+    return BookClient.post(url, humps.decamelizeKeys(data))
+      .then(response => resolve(response.data))
+      .catch(reject);
+  });
+}
+
 const storeItem = (key, value) => localStorage.setItem(key, value);
 const removeItem = key => localStorage.removeItem(key);
 
 const storeToken = (accessToken, refreshToken) => {
   storeItem('token', accessToken);
-  storeItem('refreshToken', refreshToken);
+
+  if (refreshToken) {
+    storeItem('refreshToken', refreshToken);
+  }
    
   BookClient.passToken(accessToken);
 }
@@ -149,6 +162,7 @@ const BookApi = {
   getCategories,
   storeUser,
   editUser,
+  socialAuth,
 };
 
 export default BookApi;

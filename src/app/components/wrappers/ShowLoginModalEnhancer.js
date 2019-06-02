@@ -4,19 +4,32 @@ import isEqual from 'lodash/isEqual';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { openLoginModal, closeLoginModal, loginPending } from '@/store/Login';
+
+import { 
+  openLoginModal, 
+  closeLoginModal, 
+  loginPending,
+  socialAuthPending 
+} from '@/store/Login';
+
 import Modal from '@/app/components/wrappers/Modal';
 import LoginForm from '@/app/components/forms/LoginForm';
 
 const mapStateToProps = (state) => {
   const loginUI = state.ui.login;
+  const socialAuth = state.ui.login.get('socialAuth');
+
+  const isFetching = socialAuth.get('isFetching') || loginUI.get('isFetching');
+  const fetchError = socialAuth.get('fetchError') || loginUI.get('fetchError');
+  const fetched = socialAuth.get('fetched') || loginUI.get('fetched');
+  const errorMessage = socialAuth.get('errorMessage') || loginUI.get('errorMessage');
 
   return {
     openModal: loginUI.get('openModal'),
-    isFetching: loginUI.get('isFetching'),
-    fetched: loginUI.get('fetched'),
-    fetchError: loginUI.get('fetchError'),
-    errorMessage: loginUI.get('errorMessage'),
+    isFetching,
+    fetched,
+    fetchError,
+    errorMessage,
   };
 }
 
@@ -31,6 +44,10 @@ const mapDispatchToProps = dispatch => ({
 
   submitLogin(loginData) {
     dispatch(loginPending(loginData));
+  },
+
+  socialAuthLogin(socialAuthData) {
+    dispatch(socialAuthPending(socialAuthData));
   },
 });
 
@@ -76,6 +93,7 @@ const showLoginModal = (WrappedComponent) => {
               fetchError={fetchError}
               errorMessage={errorMessage}
               onSubmitLogin={this.props.submitLogin}
+              socialAuthLogin={this.props.socialAuthLogin}
             />
           </Modal>
           <WrappedComponent

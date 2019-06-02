@@ -5,20 +5,29 @@ import {
   REFRESH_TOKEN_START,
   REFRESH_TOKEN_END,  
   OPEN_LOGIN_MODAL, 
-  CLOSE_LOGIN_MODAL
+  CLOSE_LOGIN_MODAL,
+  SOCIAL_AUTH_ASYNC
 } from './types';
 
 import { createResolver } from '@/store/utils';
 
 const loginResolver = createResolver();
+const socialAuthResolver = createResolver('socialAuth');
 
 const initialState = fromJS({
-  fetched:false,
+  fetched: false,
   isFetching: false,
   fetchError: false,
   errorMessage: '',
   openModal: false,
   isRefreshToken: false,
+
+  socialAuth: {
+    fetched: false,
+    isFetching: false,
+    fetchError: false,
+    errorMessage: '',
+  },
 });
 
 const reducer = typeToReducer({
@@ -32,6 +41,9 @@ const reducer = typeToReducer({
     openModal: false,
     fetchError: false,
   }),
+  [SOCIAL_AUTH_ASYNC.SUCCESS]: state => socialAuthResolver.success(state),
+  [SOCIAL_AUTH_ASYNC.PENDING]: state => socialAuthResolver.pending(state),
+  [SOCIAL_AUTH_ASYNC.ERROR]: (state, { payload }) => socialAuthResolver.error(state, payload),
 }, initialState);
 
 export default reducer;

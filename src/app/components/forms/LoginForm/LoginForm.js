@@ -9,6 +9,12 @@ import LoginButtons from './LoginButtons';
 import ErrorGeneralMessage from '@/app/components/ui/ErrorGeneralMessage';
 
 class LoginForm extends PureComponent {
+  checkLoginState = (response) => {
+    const { accessToken } = response;
+
+    this.props.socialAuthLogin({ oauthToken: accessToken });
+  }
+
   handleOnSubmit = (values, actions) => {
     this.props.onSubmitLogin({ values, actions });
   }
@@ -30,15 +36,22 @@ class LoginForm extends PureComponent {
           initialValues={initialValues}
           validationSchema={loginSchema}
           onSubmit={this.handleOnSubmit}
-        >
-          <Form>
+          validateOnBlur={false}
+          render={({ resetForm }) =>(
+            <Form>
             <div className="column">
               <h2 className="title is-3">Ingresar</h2>
             </div>
             <LoginFields />
-            <LoginButtons isFetching={isFetching} />
+            <LoginButtons
+              resetForm={resetForm} 
+              isFetching={isFetching}
+              checkLoginState={this.checkLoginState}  
+            />
           </Form>
-        </Formik>
+
+          )}
+        />
         <div className="column">
           <Link to="/about">Olvidaste tu contraseña?</Link>            
         </div>
@@ -52,6 +65,7 @@ LoginForm.propTypes = {
   fetchError: PropTypes.bool.isRequired,
   errorMessage: PropTypes.string,
   onSubmitLogin: PropTypes.func.isRequired,
+  socialAuthLogin: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

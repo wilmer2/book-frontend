@@ -8,7 +8,8 @@ import {
   CLOSE_LOGIN_MODAL,
   REFRESH_TOKEN_START,
   REFRESH_TOKEN_END,
-  LOGOUT
+  LOGOUT,
+  SOCIAL_AUTH_ASYNC
 } from './login/types';
 
 export const loginPending = createAction(
@@ -24,3 +25,6 @@ export const refreshTokenEnd = createAction(REFRESH_TOKEN_END);
 export const openLoginModal = createAction(OPEN_LOGIN_MODAL);
 export const closeLoginModal = createAction(CLOSE_LOGIN_MODAL);
 export const logout = createAction(LOGOUT);
+export const socialAuthPending = createAction(SOCIAL_AUTH_ASYNC.PENDING);
+export const socialAuthError = createAction(SOCIAL_AUTH_ASYNC.ERROR);
+export const socialAuthSuccess = createAction(SOCIAL_AUTH_ASYNC.SUCCESS);
