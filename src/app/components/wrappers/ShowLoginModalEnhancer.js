@@ -19,10 +19,11 @@ const mapStateToProps = (state) => {
   const loginUI = state.ui.login;
   const socialAuth = state.ui.login.get('socialAuth');
 
-  const isFetching = socialAuth.get('isFetching') || loginUI.get('isFetching');
+  const isFetching = loginUI.get('isFetching');
   const fetchError = socialAuth.get('fetchError') || loginUI.get('fetchError');
   const fetched = socialAuth.get('fetched') || loginUI.get('fetched');
   const errorMessage = socialAuth.get('errorMessage') || loginUI.get('errorMessage');
+  const fbIsFetching = socialAuth.get('isFetching');
 
   return {
     openModal: loginUI.get('openModal'),
@@ -30,6 +31,7 @@ const mapStateToProps = (state) => {
     fetched,
     fetchError,
     errorMessage,
+    fbIsFetching,
   };
 }
 
@@ -78,7 +80,8 @@ const showLoginModal = (WrappedComponent) => {
         openModal, 
         isFetching,  
         fetchError,
-        errorMessage, 
+        errorMessage,
+        fbIsFetching, 
         ...passThroughProps 
       } = this.props;
 
@@ -94,6 +97,7 @@ const showLoginModal = (WrappedComponent) => {
               errorMessage={errorMessage}
               onSubmitLogin={this.props.submitLogin}
               socialAuthLogin={this.props.socialAuthLogin}
+              fbIsFetching={fbIsFetching}
             />
           </Modal>
           <WrappedComponent

@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import MediumSpinner from '@/app/components/ui/MediumSpinner';
 import ButtonReload from '@/app/components/ui/ButtonReload';
 import CarouselItem from './CarouselItem';
@@ -20,6 +21,20 @@ const CarouselByLastSearch = (props) => {
   );
 }
 
+const CarouselByCategories = (props) => {
+  const { books } = props
+
+  if (!books.length) return null;
+
+  return (
+    <CarouselItem 
+      title="Recomendaciones" 
+      books={books} 
+      onClickOpenBookModal={props.onClickOpenBookModal}
+    />
+  );
+}
+
 const Carousels = props => <Fragment
 >
   <CarouselItem 
@@ -27,8 +42,7 @@ const Carousels = props => <Fragment
     books={props.booksMoreSeen} 
     onClickOpenBookModal={props.onClickOpenBookModal}
   />
-  <CarouselItem 
-    title="Recomendaciones" 
+  <CarouselByCategories  
     books={props.booksByCategories} 
     onClickOpenBookModal={props.onClickOpenBookModal}
   />
@@ -43,6 +57,14 @@ const Carousels = props => <Fragment
 class BookCarousel extends PureComponent {
   componentDidMount() {
     this.handleGetBooks();
+  }
+
+  componentDidUpdate(prevProps) {
+    const { categoriesIds } = this.props;
+    const prevCategoriesIds = prevProps.categoriesIds;
+
+    if (prevCategoriesIds && !isEqual(categoriesIds, prevCategoriesIds))
+      this.handleGetBooks();
   }
 
   handleGetBooks = () => {

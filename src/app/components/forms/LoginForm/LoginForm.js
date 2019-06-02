@@ -20,7 +20,7 @@ class LoginForm extends PureComponent {
   }
 
   render() {
-    const { fetchError, isFetching, errorMessage } = this.props;
+    const { fetchError, isFetching, errorMessage, fbIsFetching } = this.props;
 
     const initialValues = {
       email: '',
@@ -46,6 +46,7 @@ class LoginForm extends PureComponent {
             <LoginButtons
               resetForm={resetForm} 
               isFetching={isFetching}
+              fbIsFetching={fbIsFetching}
               checkLoginState={this.checkLoginState}  
             />
           </Form>
@@ -66,6 +67,7 @@ LoginForm.propTypes = {
   errorMessage: PropTypes.string,
   onSubmitLogin: PropTypes.func.isRequired,
   socialAuthLogin: PropTypes.func.isRequired,
+  fbIsFetching: PropTypes.bool.isRequired,
 };
 
 export default LoginForm;

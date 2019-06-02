@@ -7,13 +7,14 @@ class FormButton extends PureComponent {
       isFetching,
       color,
       size,
-      text
+      text,
+      isDisabled
     } = this.props;
 
     return (
       <button 
         className={`button ${ color } ${ size } ${ isFetching && 'is-loading'}`}
-        disabled={isFetching}
+        disabled={isDisabled}
         type="submit"
       >
         {text}
@@ -27,12 +28,14 @@ FormButton.propTypes = {
   color: PropTypes.string,
   isFetching: PropTypes.bool,
   text: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool,
 };
 
 FormButton.defaultProps = {
   size: 'is-normal',
   color: 'is-primary',
   isFetching: false,
+  isDisabled: false,
 };
 
 export default FormButton;

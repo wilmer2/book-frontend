@@ -15,7 +15,8 @@ class LoginButtons extends PureComponent {
   }
 
   render() {
-    const { isFetching } = this.props;
+    const { isFetching, fbIsFetching } = this.props;
+    const isDisabled = isFetching || fbIsFetching;
 
     return (
       <div className="column">
@@ -23,6 +24,7 @@ class LoginButtons extends PureComponent {
           text="Iniciar sesión" 
           isFetching={isFetching}
           size="is-fullwidth"
+          isDisabled={isDisabled}
         />
         <WrapperButtonFacebook>
           <FacebookLogin
@@ -30,9 +32,9 @@ class LoginButtons extends PureComponent {
             autoLoad={false}
             fields="email"
             scope="public_profile, email"
-            cssClass={`button is-link is-fullwidth  ${ isFetching && 'is-loading'}`}
+            cssClass={`button is-link is-fullwidth  ${ fbIsFetching && 'is-loading'}`}
             callback={this.handleCallbackFacebook}
-            isDisabled={isFetching} 
+            isDisabled={isDisabled} 
           />
         </WrapperButtonFacebook>
       </div>
@@ -42,6 +44,7 @@ class LoginButtons extends PureComponent {
 
 LoginButtons.propTypes = {
   isFetching: PropTypes.bool.isRequired,
+  fbIsFetching: PropTypes.bool.isRequired,
   checkLoginState: PropTypes.func.isRequired,
   resetForm: PropTypes.func.isRequired,
 };
