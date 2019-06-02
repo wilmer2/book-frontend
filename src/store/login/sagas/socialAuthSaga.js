@@ -13,11 +13,10 @@ import parseError from '@/utils/parseError';
 function* socialAuth(payload) {
   try {
     const authenticadUser = yield call(BookApi.socialAuth, payload);
-    const { meta: { custom: { accessToken } } } = authenticadUser;
 
     yield put(socialAuthSuccess());
     yield put(getAuthenticatedUserSuccess(authenticadUser));
-    yield call(BookApi.storeToken, accessToken);
+    yield call(BookApi.storeToken, payload.oauthToken);
     yield put(closeLoginModal());
 
   } catch(error) {
