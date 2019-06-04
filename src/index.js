@@ -1,12 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import ReduxToastr from 'react-redux-toastr';
+import { BrowserRouter } from 'react-router-dom';
+import store from './store';
+import Layout from '@/app/layout';
+import { render } from 'react-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+class AppContainer extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <BrowserRouter>
+          <Layout />
+        </BrowserRouter>
+        <ReduxToastr
+          timeOut={4000}
+          newestOnTop={false}
+          preventDuplicates
+          position="top-left"
+          transitionIn="fadeIn"
+          transitionOut="fadeOut"
+          progressBar
+          closeOnToastrClick
+        />
+      </Provider>
+    );
+  }
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+render(<AppContainer />, document.getElementById('root'));
