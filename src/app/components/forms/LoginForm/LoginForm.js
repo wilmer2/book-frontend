@@ -1,14 +1,33 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import isEmpty from 'lodash/isEmpty';
+import isEqual from 'lodash/isEqual';
 import { Link } from 'react-router-dom';
 import loginSchema from '@/validationSchemas/loginSchema';
 import { Formik, Form } from 'formik';
 import LoginFields from './LoginFields';
 import LoginButtons from './LoginButtons';
 import ErrorGeneralMessage from '@/app/components/ui/ErrorGeneralMessage';
+import FormTitle from '@/app/components/forms/components/FormTitle';
+
+const WrapperMessageError = styled.div`
+  max-width: 360px;
+  margin-top: 20px;
+`;
 
 class LoginForm extends PureComponent {
+  state = {
+    showError: false,
+  }
+
+  componentDidUpdate(prevProps) {
+    const { fetchError } = this.props;
+
+    if (fetchError && !isEqual(prevProps.fetchError, fetchError))
+      this.setState({ showError: true });
+  }
+
   checkLoginState = (response) => {
     const { accessToken } = response;
 
@@ -20,7 +39,8 @@ class LoginForm extends PureComponent {
   }
 
   render() {
-    const { fetchError, isFetching, errorMessage, fbIsFetching } = this.props;
+    const { isFetching, errorMessage, fbIsFetching } = this.props;
+    const { showError } = this.state;
 
     const initialValues = {
       email: '',
@@ -29,9 +49,11 @@ class LoginForm extends PureComponent {
 
     return (
       <Fragment>
-        {fetchError && !isEmpty(errorMessage) && <ErrorGeneralMessage 
-          errorMessage={errorMessage} 
-        />}
+        {showError && !isEmpty(errorMessage) && <WrapperMessageError>
+          <ErrorGeneralMessage 
+            errorMessage={errorMessage} 
+          />
+        </WrapperMessageError>}
         <Formik
           initialValues={initialValues}
           validationSchema={loginSchema}
@@ -39,18 +61,15 @@ class LoginForm extends PureComponent {
           validateOnBlur={false}
           render={({ resetForm }) =>(
             <Form>
-            <div className="column">
-              <h2 className="title is-3">Ingresar</h2>
-            </div>
-            <LoginFields />
-            <LoginButtons
-              resetForm={resetForm} 
-              isFetching={isFetching}
-              fbIsFetching={fbIsFetching}
-              checkLoginState={this.checkLoginState}  
-            />
-          </Form>
-
+              <FormTitle title="Ingresar" />
+              <LoginFields />
+              <LoginButtons
+                resetForm={resetForm} 
+                isFetching={isFetching}
+                fbIsFetching={fbIsFetching}
+                checkLoginState={this.checkLoginState}  
+              />
+            </Form>
           )}
         />
         <div className="column">
