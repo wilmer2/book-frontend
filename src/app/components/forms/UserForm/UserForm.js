@@ -25,7 +25,7 @@ class UserForm extends PureComponent {
     const { fetched, successMessage } = this.props;
 
     if (fetched && !isEqual(prevProps.fetched, fetched))
-      toastr.success(successMessage);
+      toastr.success('Exito!', successMessage);
   }
 
   handleOnSubmit = (inputData, actions) => {
@@ -75,6 +75,7 @@ class UserForm extends PureComponent {
                 <FormButton 
                   text="Guardar" 
                   isFetching={isFetching}
+                  isDisabled={isFetching}
                 />
               </div>
             </Form>
