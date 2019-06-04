@@ -37,9 +37,10 @@ const reducer = typeToReducer({
   [REFRESH_TOKEN_START]: state => state.set('isRefreshToken', true),
   [REFRESH_TOKEN_END]: state => state.set('isRefreshToken', false),
   [OPEN_LOGIN_MODAL]: state => state.set('openModal', true),
-  [CLOSE_LOGIN_MODAL]: state => state.merge({
-    openModal: false,
-    fetchError: false,
+  [CLOSE_LOGIN_MODAL]: state => state.withMutations((mutator) => {
+    mutator.set('openModal', false);
+    mutator.set('fetchError', false);
+    mutator.setIn(['socialAuth', 'fetchError'], false);
   }),
   [SOCIAL_AUTH_ASYNC.SUCCESS]: state => socialAuthResolver.success(state),
   [SOCIAL_AUTH_ASYNC.PENDING]: state => socialAuthResolver.pending(state),
