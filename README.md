@@ -47,6 +47,11 @@ Frontend del sistema para lectura de libros
 
 ![Screenshot from 2019-06-12 16-54-23](https://user-images.githubusercontent.com/9289120/59386443-ace4c380-8d34-11e9-8a4a-da4450467c26.png)
 
+## Detalle de Libro Modal
+
+![Screenshot from 2019-05-27 23-59-16](https://user-images.githubusercontent.com/9289120/59386734-6e9bd400-8d35-11e9-82f0-37fee9845b0e.png)
+
+
 ## Vista de Página
 
 ![Screenshot from 2019-05-28 00-00-21](https://user-images.githubusercontent.com/9289120/59386542-e5849d00-8d34-11e9-920e-040d2b491ed1.png)
@@ -54,3 +59,5 @@ Frontend del sistema para lectura de libros
 ## Registro de Usuario
 
 ![Screenshot from 2019-05-28 00-01-22](https://user-images.githubusercontent.com/9289120/59386628-24b2ee00-8d35-11e9-9fa5-8fb064018c49.png)
+
+
