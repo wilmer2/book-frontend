@@ -46,3 +46,8 @@ Frontend del sistema para lectura de libros
 ## Listado de Libros
 
 ![Screenshot from 2019-06-12 16-54-23](https://user-images.githubusercontent.com/9289120/59386443-ace4c380-8d34-11e9-8a4a-da4450467c26.png)
+
+## Vista de Página
+
+![Screenshot from 2019-05-28 00-00-21](https://user-images.githubusercontent.com/9289120/59386542-e5849d00-8d34-11e9-920e-040d2b491ed1.png)
+
