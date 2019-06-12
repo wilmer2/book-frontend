@@ -51,3 +51,6 @@ Frontend del sistema para lectura de libros
 
 ![Screenshot from 2019-05-28 00-00-21](https://user-images.githubusercontent.com/9289120/59386542-e5849d00-8d34-11e9-920e-040d2b491ed1.png)
 
+## Registro de Usuario
+
+![Screenshot from 2019-05-28 00-01-22](https://user-images.githubusercontent.com/9289120/59386628-24b2ee00-8d35-11e9-9fa5-8fb064018c49.png)
