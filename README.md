@@ -66,6 +66,9 @@ Frontend del sistema para lectura de libros
 
 ## Edición de Usuario
 
+![Screenshot from 2019-06-12 17-19-52](https://user-images.githubusercontent.com/9289120/59387883-54172a00-8d38-11e9-95e6-47fa06ae3a4f.png)
+
+
 
 
 
